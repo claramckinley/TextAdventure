@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://ijwk0pd1gdqy"]
+
+[ext_resource type="Script" path="res://main/text_adventure.gd" id="1_nugwl"]
+
+[node name="TextAdventure" type="ColorRect"]
+offset_right = 1147.0
+offset_bottom = 652.0
+color = Color(0.00784314, 0.00784314, 0.00784314, 1)
+script = ExtResource("1_nugwl")
+
+[node name="DisplayText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+fit_content = true
+
+[node name="UserInput" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[connection signal="text_submitted" from="UserInput" to="." method="_on_user_input_text_submitted"]
