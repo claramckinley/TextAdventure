@@ -2,7 +2,15 @@ extends Node
 
 var examine = {
 	"HOTEL": "this is the hotel",
-	"CHURCH": "this is the church"
+	"CHURCH": "this is the church",
+	"STORE": "this is the general store",
+	"LIGHTHOUSE": "this is a lighthouse",
+	"BRIDGE": "this is a bridge",
+	"HOUSE": "this is someones house"
+}
+
+var blockers = {
+	"STORE" = "KEY"
 }
 
 var north = {
@@ -10,6 +18,7 @@ var north = {
 }
 
 var east = {
+	"STORE": "HOTEL"
 }
 
 var south = {
@@ -17,6 +26,7 @@ var south = {
 }
 
 var west = {
+	"CHURCH": "STORE"
 }
 
 var northeast = {
