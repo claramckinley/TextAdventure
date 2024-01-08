@@ -1,0 +1,13 @@
+DIRECTIONS:
+	you can use use north, south, east, west, northwest, southwest, sortheast, southest, up, down, open, close or cross to navigate the town
+	
+COMMANDS:
+	type examine to look at the space you are in
+	type pick up/take to pick up and object
+	type drop to drop an object
+	type inventory to see what youre holding
+		
+	type time to see how long you ahve played
+	type moves to see how many moves you have taken
+	type score to see your score
+	type quit to end the game

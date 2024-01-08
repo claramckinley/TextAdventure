@@ -2,27 +2,49 @@
 
 [ext_resource type="Script" path="res://main/text_adventure.gd" id="1_nugwl"]
 
-[node name="TextAdventure" type="ColorRect"]
-offset_right = 1147.0
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1143.0
 offset_bottom = 652.0
+
+[node name="TextAdventure" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -196.0
+offset_top = -168.0
+offset_right = 1358.0
+offset_bottom = 816.0
 color = Color(0.00784314, 0.00784314, 0.00784314, 1)
 script = ExtResource("1_nugwl")
 
 [node name="DisplayText" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 28.0
+offset_top = 30.0
+offset_right = -28.0
+offset_bottom = 404.0
 grow_horizontal = 2
-fit_content = true
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 30
+scroll_following = true
 
 [node name="UserInput" type="LineEdit" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -31.0
+offset_left = 20.0
+offset_top = -17.0
+offset_right = -40.0
+offset_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+placeholder_text = "> "
 
-[connection signal="text_submitted" from="UserInput" to="." method="_on_user_input_text_submitted"]
+[connection signal="text_submitted" from="UserInput" to="TextAdventure" method="_on_user_input_text_submitted"]
