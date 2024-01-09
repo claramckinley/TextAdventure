@@ -8,6 +8,8 @@ var curr_loc = origin
 var target = ""
 var change_moves = true
 var start_time
+var footsteps = 5
+
 @export var damage = 5
 
 func _ready():
@@ -17,24 +19,29 @@ func _ready():
 	update_display(intro_text.get_as_text())
 	start_time = Time.get_ticks_msec()
 	
-#func _process(delta):
+func _process(delta):
+	if footsteps == 0:
+		randomize()
+		var index = randi_range(0, Player.sounds.size() - 1)
+		update_display(Player.sounds[index])
+		footsteps = randi_range(5, 10)
 ##	if Input.is_action_just_pressed("skip"):
 ##		display_text.visible_ratio = 1
-#	if Player.monster_distance == 0:
-#		Player.sanity = Player.sanity - damage
-#	if Player.sanity <= 0:
-#		curr_loc = origin
-#		for key in Objects.examine.keys():
-#			if Player.inventory.has(key):
-#				var locations = Locations.examine.keys()
-#				randomize()
-#				var new_loc = locations[randi() % locations.size()]
-#				print(new_loc)
-#				Objects.location[key] = new_loc
-#				Player.inventory.erase(key)
-#		update_display("you were caught by the monster. youre back at the hotel and the car pieces you had are gone...")
-#		Player.monster_distance = 3
-#		Player.sanity = 10
+	if Player.monster_distance == 0:
+		Player.sanity = Player.sanity - damage
+	if Player.sanity <= 0:
+		curr_loc = origin
+		for key in Objects.examine.keys():
+			if Player.inventory.has(key):
+				var locations = Locations.examine.keys()
+				randomize()
+				var new_loc = locations[randi() % locations.size()]
+				print(new_loc)
+				Objects.location[key] = new_loc
+				Player.inventory.erase(key)
+		update_display("you were caught by the monster. youre back at the hotel and the car pieces you had are gone...")
+		Player.monster_distance = 3
+		Player.sanity = 10
 		
 func update_display(text):
 	display_text.add_text(text + "\n")
@@ -48,6 +55,7 @@ func _on_user_input_text_submitted(new_text):
 	if change_moves:
 		Player.moves = Player.moves + 1
 		Player.monster_distance = Player.monster_distance - 1
+		footsteps = footsteps - 1
 	user_input.clear()
 	update_display("")
 	update_display("> " + new_text)
@@ -88,6 +96,10 @@ func parse_input(input):
 					change_moves = false
 			else:
 				update_display("your hands are empty")
+		"DIG":
+			if Objects.dig.has(curr_loc):
+				var dig = Objects.static_object.get(Objects.div[curr_loc])
+				update_display(Objects.div[curr_loc] + "\n" + dig)
 		"MOVES":
 			change_moves = false
 			update_display("moves: " + str(Player.moves))
@@ -137,9 +149,22 @@ func parse_input(input):
 			if Locations.southwest.has(curr_loc) and check_travel(Locations.southwest.get(curr_loc)):
 				curr_loc = Locations.southwest.get(curr_loc)
 				generate_examine()
+		"UP":
+			if Locations.up.has(curr_loc) and check_travel(Locations.up.get(curr_loc)):
+				curr_loc = Locations.up.get(curr_loc)
+				generate_examine()
+		"DOWN":
+			if Locations.down.has(curr_loc) and check_travel(Locations.down.get(curr_loc)):
+				curr_loc = Locations.down.get(curr_loc)
+				generate_examine()
 		"EXAMINE OBJECT":
-			if Locations.object.has(target) and Locations.object_location.get(target) == curr_loc:
-				generate_object_examine()
+			if Objects.static_object.has(target) and Objects.static_object_location.get(target) == curr_loc:
+				if target == "CAR":
+					check_complete()
+				else:
+					generate_object_examine()
+			else:
+				update_display("I don't know what that means")
 				
 func separate_input(text):
 	if text == "" or text == null:
@@ -148,8 +173,13 @@ func separate_input(text):
 		change_moves = true
 	text = text.to_upper()
 	if text.contains("EXAMINE"):
-		target = text.trim_prefix("EXAMINE ")
-		return ""
+		target = text.trim_prefix("EXAMINE")
+		if target == "" or target == " " or target == null:
+			return "EXAMINE"
+		else:
+			target = target.trim_prefix(" ")
+			target = target.trim_suffix(" ")
+			return "EXAMINE OBJECT"
 	if text.contains("PICK UP"):
 		target = text.trim_prefix("PICK UP ")
 		return "PICK UP"
@@ -165,8 +195,26 @@ func separate_input(text):
 	elif text.contains("CLOSE"):
 		target = text.trim_prefix("CLOSE ")
 		return "CLOSE"
+	elif text.contains("DIG"):
+		return "DIG"
 	if text.contains("HELP"):
 		return "HELP"
+	if text == "N":
+		return "NORTH"
+	if text == "S":
+		return "SOUTH"
+	if text == "E":
+		return "EAST"
+	if text == "W":
+		return "WEST"
+	if text == "NW":
+		return "NORTHWEST"
+	if text == "SW":
+		return "SOUTHWEST"
+	if text == "NE":
+		return "NORTHEAST"
+	if text == "SE":
+		return "SOUTHEAST"
 	else:
 		target = ""
 	return text
@@ -179,7 +227,7 @@ func generate_examine():
 		update_display(Objects.examine.get(object))
 
 func generate_object_examine():
-	var examine = Locations.object.get(target)
+	var examine = Objects.static_object.get(target)
 	update_display(target + "\n" + examine)
 	var object = Objects.location.find_key(target)
 	if object != null:
@@ -191,7 +239,8 @@ func check_travel(next_loc):
 		var has_blocker = Player.inventory.find(blocker)
 		if has_blocker != -1:
 			update_display("used " + blocker)
-			Player.inventory.erase(blocker)
+			if blocker.contains("KEY"):
+				Player.inventory.erase(blocker)
 			Player.monster_distance = Player.monster_distance + 2
 			return true
 		else:
@@ -200,3 +249,8 @@ func check_travel(next_loc):
 		Player.monster_distance = Player.monster_distance + 2
 		return true
 	return false
+	
+func check_complete():
+	if Player.inventory.find("BATTERY") != -1 and Player.inventory.find("ALTERNATOR") != -1 and Player.inventory.find("SPARK PLUG") != -1 and Player.inventory.find("CAR KEY") != -1 and Player.inventory.find("BATTERY") != -1:
+		var escape_text = FileAccess.open("res://main/escape.txt", FileAccess.READ)
+		update_display(escape_text.get_as_text())

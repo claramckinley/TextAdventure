@@ -6,7 +6,7 @@ var examine = {
 	\nTo the WEST is the door to the hallway, marks on the door frame suggesting the recent removal of a bolt,
 	\nTo the NORTH is a door with no handles.",
 	
-	"BATHROOM": "You are in a discouraging relic of a bathroom: there is an ancient marble bowl, a tin tub, and musty wood paneling around all of the plumbing fixtures. 
+	"BATHROOM": "You are in a discouraging relic of a bathroom: there is an ancient marble bowl, a tin tub, and musty wood paneling around all of the plumbing fixtures. There is a little window above the tub.
 	\nTo the SOUTH is a door with no handles.",
 	
 	"MAIN ROAD": "You are on a wide road, the surface worn and cracked .
@@ -14,8 +14,7 @@ var examine = {
 	\nTo the WEST appears to be a dark forest, thick with trees and tall grass, 
 	\nTo the SOUTH you see a town.",
 	
-	"WEST OF HOTEL": "Beside you is a listing hotel, peeling paint and a creaking sign welcome you. 
-	\nYou see your car parked out front (could you open it?), 
+	"WEST OF HOTEL": "Beside you is a sagging hotel, peeling paint and a creaking sign welcome you. Your car is parked in front.
 	\nTo the EAST is the front door to the hotel,
 	\nTo the WEST is what looks like the main road.",
 	
@@ -25,13 +24,13 @@ var examine = {
 	"TOWN SQUARE": "You come upon an open concourse with an unkept circular green in the center, clearly some kind of town square. A leaning statue occupies the center of the green, though it appears as though it has been erroded beyond recognition.\n	
 	\nTo the WEST you see a large pillard hall hung with torn, faded tapestries,
 	\nTo the NORTH you can see the curve of the main road you came in on,  
-	\nTo the SOUTHWEST is a squat building with dark windows,  
+	\nTo the SOUTHWEST is a brick building with dark windows,  
 	\nTo the EAST appears to be a general store with harsh flickering lights, 
-	\nTo the NORTHEAST is a narrow building with a faded sign on the front. You can only make out a few letters: DR-, 
+	\nTo the NORTHEAST is a narrow building with a faded sign on the front. You can only make out a few letters: DROF-, 
 	\nTo the SOUTHEAST you can see the spire of a lighthouse, clearly not in use, 
 	\nTo the SOUTH you see a bridge.",
 	
-	"HOTEL": "You are in the shabby lobby of a small hotel. Dim lights highlight faded carpet and peeling wallpaper. There is a lone concierge desk, dusty with lack of use and a wall of keys hanging in silent disarray. It appears there are quite a few vacancies.
+	"HOTEL LOBBY": "You are in the shabby lobby of a small hotel. Dim lights highlight faded carpet and peeling wallpaper. There is a lone concierge desk, dusty with lack of use and a wall of keys hanging in silent disarray. It appears there are quite a few vacancies.
 	\nTo the WEST is a simple brown door
 	\nTo the EAST is a rickety set of stairs barely wide enough to fit one person.",
 	
@@ -70,8 +69,8 @@ var examine = {
 	\nTo the SOUTH is a narrow, rickety bridge, 
 	\nTo the SOUTHEAST you notice a steady roaring sound",
 	
-	"RIVER EDGE": "A wide, deafening river roars past you, drowning out all other sound. 
-	\nTo the NORTHWEST you see the edge of a small path leading into the brush",
+	"RIVER EDGE": "You traverse your way down a trecherous path. It takes a while but eventually you make it to the end. A wide, deafening river roars past you, drowning out all other sound. 
+	\nTo the NORTHWEST you see the edge of a small path leading back up along the side of the steep incline",
 	
 	"STORE": "You stand in the town's general store. There are only a few aisles but every one seems near-empty of goods. Except for the salt, which has been untouched. There is one checkout lane open, an elderly, bearded man with sunken eyes and blueish skin stares blankly at the wall.
 	\nTo the WEST is the door",
@@ -83,20 +82,22 @@ var examine = {
 	"DARK HALL": "You walk down the dark hallway and enter a back room where a cart of sterile instruments sits prepped in a makeshift operating room. A folding card table stands in the center covered with a slightly stained white sheet.
 	\nTo the WEST is the waiting room",
 	
-	"LIBRARY": "You are in a library with impressively towering shelves that brush the surprisingly high ceiling. The books are meticulously organized and a dusty card catalogue stands off to your right. 
+	"LIBRARY": "You are in a library with impressively towering shelves that brush the surprisingly high ceiling. The books are meticulously organized and a dusty card catalog stands off to your right. A few books lay open on a central table as though forgotten mid-read.
 	\nTo the NORTHEAST is the door",
 	
-	"CITY HALL": "You are in a large circular room with a raised bench at the far end, gavels lay abandoned atop stacks of yellowing parchemnt. There stands a display case in the center of the room cordoned off with velvet ropes and surrounded in concentric circles by folding chairs. 
+	"CITY HALL": "You are in a large circular room with a raised bench at the far end, gavels lay abandoned atop stacks of yellowing parchment. There stands a display case in the center of the room cordoned off with velvet ropes and surrounded in concentric circles by folding chairs. 
 	\nTo the EAST is the door",
 	
-	"LIGHTHOUSE": "You stand inside of the lighthouse. , 
+	"LIGHTHOUSE": "You stand inside of the lighthouse. The walls are rounded, made of red bricks and the floor is muddied with criss-crossing footprints. In the center of the room is an iron spiral staircase that reaches far up to the top of the lighthouse. In the room with you is a modest cot, a writing desk with a wire lamp and a ratty shade, and a cabinet.
+	\nUP is the top of the lighthouse
 	\nTo the NORTHWEST is a path, 
 	\nTo the WEST is a cluster of houses, 
 	\nTo the SOUTH appears to be access to the water, 
 	\nTo the NORTH is a rocky trail along the edge of the water,
 	\nTo the NORTHEAST are some docks",
 	
-	"TOP OF LIGHTHOUSE": "",
+	"TOP OF LIGHTHOUSE": "You are at the top of the lighthouse. A huge beacon lamp sits in the center of the open-air room, though the glass in the light has been shattered and covers the floor. A chain with a delicate gold cross lays on the ground.
+	\nDOWN is the lighthouse",
 	
 	"DOCKS": "You stand on a decaying dock. You can see dilapidated pilings, encrusted with barnacles amid the murky expanse of the waterfront. Out in the distance you can spot what seems to be a small two-man rowboat in the choppy water, though you cannot see any figures.
 	\nTo the SOUTHWEST is the entrance to the lighthouse",
@@ -112,10 +113,10 @@ var examine = {
 	"SOUTH BEACH": "You stand in front of a large burnt-out bonfire. The ground is covered with ash and surrounding the pile are crooked stones with eldritch carvings hacked into their surfaces, dark splashes of mysterious ichor mars the face of the one beside you.
 	\nTo the NORTH you can see the lighthosue",
 	
-	"HOUSE": "You stand inside a small, bare, one-bedroom house. There is a twin-sized bed in the corner and a bowl of brown water on the ground beside it. Hay covers the floor, a half-hearted attempt at a carpet, and a tiny desk has been shoved into the corner. In the dim light from an exposed bulb on the ceiling you can see that the walls, floor, ceiling, and furniture have all been mercilously carved and etched with black ink. Symbols upon symbols of nautical horror surround you and envelop you.
+	"HOUSE": "You stand inside a small, bare, one-bedroom house. There is a twin-sized bed in the corner and a bowl of brown water on the ground beside it. Hay covers the floor, a half-hearted attempt at a carpet, and a tiny desk has been shoved into the corner. In the dim light from an exposed bulb on the ceiling you can see that the walls, ground, ceiling, and furniture have all been mercilously carved and etched with black ink. Symbols upon symbols of nautical horror surround you and envelop you.
 	\nTo the NORTHEAST is the door",
 	
-	"HOVEL": "You enter the deserted hovel whose dark gaping windows and perilous lean suggest you dont take your time.Inside 
+	"HOVEL": "You enter the deserted hovel whose dark gaping windows and perilous lean suggest you dont take your time. Inside is bare: no furniture, windows boarded up, exposed beams above your head, floor made of packed earth. 
 	\nTo the NORTH is the door",
 	
 	"MANSION": "You enter an opulent mansion. A dazzling grand staircase winds upward in front of you and lush draperies adorn every surface.
@@ -123,48 +124,43 @@ var examine = {
 	\nTo the SOUTHWEST is a door
 	\nTo the NORTHWEST is the front door",
 	
-	"UPSTAIRS": "You 
+	"UPSTAIRS": "You walk up the stairs, feeling transported to a world of dramatic riches. The banister is a thick, dark wood, so shiny you can see your reflection.
 	\nTo the SOUTHEAST is a lone door,
 	\nTo the NORTHWEST is the staircase",
 	
-	"KITCHEN": "
-	\nTo the NORTHEAST is a door"
+	"KITCHEN": "You are in the mansion's kitchen. A set of large farmhouse sinks take up much of the far wall and hooks decorate the walls holding an assortment of botanical curiosities.
+	\nTo the NORTHEAST is a door",
 	
-	"BEDROOM":"
-	\nTo the NORTHWEST is a door"
+	"BEDROOM":"You stand in a bedroom unlike any you have seen before. Luxury drips off of every surface: the sumptuous bedding,the gilded furniture, the silk drapes, even a delicate fragrance wafts through the room carrying an aura of refinement.
+	\nTo the NORTHWEST is a door",
 	
 	"CAVES": "You enter an exapansive cavern extending into blackness around you. You can hear the drip drip drip of water somewhere off in a direction you cant quite place.
 	\nTo the SOUTH is a perilously rocky trail, butting against the sea, 
 	\nTo the EAST is a low tunnel, the floor of which is wet and sharp with obsidian rocks",
 	
-	"TEMPLE": "You scramble through the tunnel on your stomach and stand to find yourself in a lavish temple, the walls of which are draped in massive tapestries with haunting aquatic imagery. Gold sparkles upon every surface and the air smells strongly of salt.
+	"TEMPLE": "You scramble through the tunnel on your stomach and stand to find yourself in the confines of a temple. Ancient, cyclopean stones rise like jagged teeth, their surfaces coated in grotesque engravings depicting eldritch rites otherworldly abominations. The temple's architecture defies earthly geometry, twisting reality itself into a cosmic alien leviathon. At the far end of the horrific chamber is a central altar surrounded by unearthly flickering candles. 
 	\nTo the WEST is the low tunnel",
 	
-	"CAR": "The hood of the car creaks open and you take stock. 
-	\nThere are parts missing, cables unhooked and yawning, previously-occupied spaces. After a brief survey of the damage you note that you are missing: 
-	\nthe BATTERY, 
-	\na PISTON, 
-	\na SPARK PLUG, 
-	\nthe ALTERNATOR, 
-	\nand, though you left the car unlocked, you are missing your CAR KEYS",
+	"TUNNELS": "The earth has been dug out around you to a height you need to stoop to fit through, the walls are shoulder-width apart and it is pitch black. Your flashlight casts a spotlight on the dark soil around you. You can see some roots reaching through above your head.
+	\nUP is back into the hovel
+	\nTo the SOUTH the tunnel continues.",
 	
-	"BOOK ONE": "____ was founded in 1685. Notable for its shipbuilding and the riots of 1838, the town became extremely superstitious and closed off from the world",
-	
-	"DISPLAY CASE": "Inside is an amulet of strange, unearthly splendor: swirling nautical carvings surround oppulent cerulean gems. The carvings are near-unintelligible, though with a curiously disturbing element you can't quite put your finger on."
+	"DEEP TUNNELS": "A dead end.
+	\nTo the NORTH the tunnel continues."
 }
 
 var blockers = {
-	"STORE": "KEY"
+	"TUNNELS": "FLASHLIGHT"
 }
 
-var open = {
-	"WEST OF HOTEL": "CAR",
-	"CITY HALL": "DISPLAY CASE"
+var up = {
+	"LIGHTHOUSE": "TOP OF LIGHTHOUSE",
+	"TUNNELS": "HOVEL"
 }
 
-var close = {
-	"CAR": "WEST OF HOTEL",
-	"DISPLAY CASE": "CITY HALL"
+var down = {
+	"TOP OF LIGHTHOUSE": "LIGHTHOUSE",
+	"HOVEL": "TUNNELS"
 }
 
 var north = {
@@ -176,20 +172,23 @@ var north = {
 	"BEACH": "LIGHTHOUSE",
 	"HOVEL": "HOUSING DISTRICT",
 	"LIGHTHOUSE": "CAVES",
-	"ROOM 428": "BATHROOM"
+	"ROOM 428": "BATHROOM",
+	"SOUTH BEACH": "BEACH",
+	"DEEP TUNNELS": "TUNNELS"
 }
 
 var east = {
 	"MAIN ROAD": "WEST OF HOTEL",
-	"WEST OF HOTEL": "HOTEL",
+	"WEST OF HOTEL": "HOTEL LOBBY",
 	"WILDS": "MAIN ROAD",
 	"TOWN SQUARE": "STORE",
 	"HOUSING DISTRICT": "LIGHTHOUSE",
 	"OLD CHURCH": "HOUSING DISTRICT",
 	"CITY HALL": "TOWN SQUARE",
 	"CAVES": "TEMPLE",
-	"HOTEL": "ROOM 428",
-	"DR OFFICE": "DARK HALL"
+	"HOTEL LOBBY": "ROOM 428",
+	"DR OFFICE": "DARK HALL",
+	"CHURCH SANCTUARY": "OLD CHURCH"
 }
 
 var south = {
@@ -201,20 +200,23 @@ var south = {
 	"SMALL PATH": "OLD BRIDGE",
 	"LIGHTHOUSE": "BEACH",
 	"CAVES": "LIGHTHOUSE",
-	"BATHROOM": "ROOM 428"
+	"BATHROOM": "ROOM 428",
+	"BEACH": "SOUTH BEACH",
+	"TUNNELS": "DEEP TUNNELS"
 }
 
 var west = {
 	"MAIN ROAD": "WILDS",
 	"WEST OF HOTEL": "MAIN ROAD",
 	"TOWN SQUARE": "CITY HALL",
-	"HOTEL": "WEST OF HOTEL",
+	"HOTEL LOBBY": "WEST OF HOTEL",
 	"HOUSING DISTRICT": "OLD CHURCH",
 	"STORE": "TOWN SQUARE",
 	"LIGHTHOUSE": "HOUSING DISTRICT",
 	"TEMPLE": "CAVES",
-	"ROOM 428": "HOTEL",
-	"DARK HALL": "DR OFFICE"
+	"ROOM 428": "HOTEL LOBBY",
+	"DARK HALL": "DR OFFICE",
+	"OLD CHURCH": "CHURCH SANCTUARY"
 }
 
 var northeast = {
@@ -232,7 +234,8 @@ var northwest = {
 	"LIGHTHOUSE": "LIGHTHOUSE BRIDGE",
 	"MANSION": "HOUSING DISTRICT",
 	"UPSTAIRS": "MANSION",
-	"BEDROOM": "UPSTAIRS"
+	"BEDROOM": "UPSTAIRS",
+	"LIGHTHOUSE BRIDGE": "TOWN SQUARE",
 }
 
 var southeast = {
@@ -240,7 +243,8 @@ var southeast = {
 	"HOUSING DISTRICT": "MANSION",
 	"SMALL PATH": "RIVER EDGE",
 	"MANSION": "UPSTAIRS",
-	"UPSTAIRS": "BEDROOM"
+	"UPSTAIRS": "BEDROOM",
+	"LIGHTHOUSE BRIDGE": "LIGHTHOUSE",
 }
 
 var southwest = {
@@ -248,13 +252,8 @@ var southwest = {
 	"HOUSING DISTRICT": "HOUSE",
 	"OLD CHURCH": "GRAVEYARD",
 	"DR OFFICE": "TOWN SQUARE",
-	"MANSION": "KITCHEN"
-}
-
-var up = {
-}
-
-var down = {
+	"MANSION": "KITCHEN",
+	"DOCKS": "LIGHTHOUSE"
 }
 
 var cross = {

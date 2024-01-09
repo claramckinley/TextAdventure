@@ -8,4 +8,11 @@ var monster_distance = 3
 
 var sanity = 10
 
-var inventory = []
+var inventory = ["KEY 428"]
+
+var sounds = [
+	"You hear footsteps",
+	"The faint, but distinct sounds of someone trailing you reaches your ears.",
+	"The sound of a quietly placed boot that is not your own raises the hairs on the back of your neck",
+	"Muffled steps sound from around the corner"
+]
