@@ -257,3 +257,19 @@ var dig = {
 	"GRAVEYARD": "SHALLOW GRAVE",
 	"HOVEL": "TRAP DOOR"
 }
+
+var sanity_loss = {
+	"KEYS": 3,
+	"CAR": 10,
+	"PARCHMENT": 3,
+	"STATUE": 5,
+	"DISPLAY CASE": 10,
+	"MAN": 2,
+	"PHOTOGRAPH": 3,
+	"INSTRUMENTS": 7,
+	"SYMBOLS": 10,
+	"STAINED GLASS": 3,
+	"CARVINGS": 5,
+	"ENGRAVINGS": 5,
+	"ALTAR": 5
+}

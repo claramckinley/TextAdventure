@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://ijwk0pd1gdqy"]
+[gd_scene load_steps=4 format=3 uid="uid://ijwk0pd1gdqy"]
 
 [ext_resource type="Script" path="res://main/text_adventure.gd" id="1_nugwl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0nok"]
+bg_color = Color(7.44621e-07, 0.240016, 0.128162, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6tiwv"]
+bg_color = Color(0, 0.733333, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -46,5 +60,18 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 30
 placeholder_text = "..."
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 821.0
+offset_top = 571.0
+offset_right = 1093.0
+offset_bottom = 592.0
+theme_override_styles/background = SubResource("StyleBoxFlat_y0nok")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6tiwv")
+max_value = 20.0
+rounded = true
+show_percentage = false
 
 [connection signal="text_submitted" from="UserInput" to="TextAdventure" method="_on_user_input_text_submitted"]

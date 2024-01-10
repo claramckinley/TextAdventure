@@ -2,17 +2,21 @@ extends ColorRect
 
 @onready var user_input = %UserInput
 @onready var display_text = %DisplayText
+@onready var progress_bar = %ProgressBar
 
 var origin = "ROOM 428"
 var curr_loc = origin
 var target = ""
-var change_moves = true
+var change_moves = false
 var start_time
 var footsteps = 5
+var monster_check = true
+var max_value = 100
 
 @export var damage = 5
 
 func _ready():
+	progress_bar.value = max_value
 	user_input.caret_force_displayed = true
 	user_input.grab_focus()
 	var intro_text = FileAccess.open("res://main/intro.txt", FileAccess.READ)
@@ -20,6 +24,9 @@ func _ready():
 	start_time = Time.get_ticks_msec()
 	
 func _process(delta):
+	if monster_check and Player.monster_distance == 1:
+			update_display("\nthe monster is near")
+			monster_check = false
 	if footsteps == 0:
 		randomize()
 		var index = randi_range(0, Player.sounds.size() - 1)
@@ -29,6 +36,8 @@ func _process(delta):
 ##		display_text.visible_ratio = 1
 	if Player.monster_distance == 0:
 		Player.sanity = Player.sanity - damage
+		Player.monster_distance = 5
+		monster_check = true
 	if Player.sanity <= 0:
 		curr_loc = origin
 		for key in Objects.examine.keys():
@@ -39,8 +48,7 @@ func _process(delta):
 				print(new_loc)
 				Objects.location[key] = new_loc
 				Player.inventory.erase(key)
-		update_display("you were caught by the monster. youre back at the hotel and the car pieces you had are gone...")
-		Player.monster_distance = 3
+		update_display("\nyou were caught by the monster. youre back at the hotel and the car pieces you had are gone...")
 		Player.sanity = 10
 		
 func update_display(text):
@@ -50,6 +58,7 @@ func update_display(text):
 	
 
 func _on_user_input_text_submitted(new_text):
+	monster_check = true
 #	if new_text == "" or new_text == null :
 #		display_text.visible_ratio = 1
 	if change_moves:
@@ -221,17 +230,26 @@ func separate_input(text):
 	
 func generate_examine():
 	var examine = Locations.examine.get(curr_loc)
-	update_display(curr_loc + "\n" + examine)
+	display_text.push_color(Color.GREEN)
+	update_display("\n" + curr_loc + "\n")
+	display_text.push_color(Color.WHITE)
+	update_display(examine)
 	var object = Objects.location.find_key(curr_loc)
 	if object != null:
 		update_display(Objects.examine.get(object))
 
 func generate_object_examine():
 	var examine = Objects.static_object.get(target)
-	update_display(target + "\n" + examine)
+	display_text.push_color(Color.GREEN)
+	update_display("\n" + target + "\n")
+	display_text.push_color(Color.WHITE)
+	update_display(examine)
 	var object = Objects.location.find_key(target)
 	if object != null:
 		update_display(Objects.examine.get(object))
+	if Objects.sanity_loss.find_key(target) != -1:
+		Player.sanity = Player.sanity - Objects.sanity_loss[target]
+		progress_bar.value = Player.sanity
 
 func check_travel(next_loc):
 	if Locations.blockers.has(next_loc):

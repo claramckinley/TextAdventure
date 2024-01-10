@@ -258,3 +258,8 @@ var southwest = {
 
 var cross = {
 }
+
+#func can_fit():
+#	if Player.inventory.size() > 3:
+#		return "You are carrying too much stuff"
+	

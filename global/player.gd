@@ -4,9 +4,9 @@ var moves = 0
 
 var score = 0
 
-var monster_distance = 3
+var monster_distance = 5
 
-var sanity = 10
+var sanity = 20
 
 var inventory = ["KEY 428"]
 
