@@ -3,17 +3,19 @@ extends Node
 var location = {
 	"FLASHLIGHT": "STORE",
 	"SILVER KEY": "BRICKS",
-	"BATTERY": "LIGHTHOUSE",
-	"SPARK PLUG": "GRAVEYARD",
+	"STRANGE TRIANGLE": "CHURCH",
+	"BATTERY": "TOP OF LIGHTHOUSE",
+	"SPARK PLUG": "TREE",
 	"CAR KEY": "WILDS",
-	"PISTON": "CAVES",
-	"ALTERNATOR": "HOUSING DISTRICT"
+	"PISTON": "",
+	"ALTERNATOR": "DEEP TUNNELS"
 }
 
 var examine = {
 	"KEY": "There is small key",
 	"SILVER KEY": "There is a silver key",
 	"FLASHLIGHT": "There is a normal flashlight",
+	"STRANGE TRIANGLE": "A strange triangular prism. One side has a three-pronged tooth protruding about half an inch and the other has an intricate releif of triangles.",
 	"BATTERY": "A compact metal box, adorned with a network of cables and terminals: the BATTERY",
 	"SPARK PLUG": "A slender metal rod crowned with a ceramic insulator: the SPARK PLUG",
 	"CAR KEY": "A ring with a set of three ordinary keys, including your house key and a small corkscrew: the CAR KEY",
@@ -59,8 +61,11 @@ var static_object = {
 	"SALT": "The salt appears to be the only untouched good. There are rows upon rows of cylindrical containers on the otherwise empty shelves.",	
 	"MAN": "The man looks half-alive. You notice that he has a large bald spot on the left side of his head. You can see his scalp. His clothes are wet and dripping steadily onto the linoleum floor. You nod at him awkwardly and he stares blankly through you.",
 	"PHOTOGRAPH": "It looks to be a picture of the gorge running through town. As you look closely you can see what look like tiny dark figures along the bank of the river at the base of the gorge.",
+	"KEYPAD": "The keypad has the number 0-9, # and *. Enter a code.",
+	"SAFE": "It seems to be an ordinary safe",
 	"SEATS": "The chairs seem like they would be comfortable. Wonder why they are knocked over?",
-	"INSTRUMENTS": "The array appears to be comprehensive. You see forceps, a bone saw, syringes, pliers, even a bottle of chloroform.",
+	"INSTRUMENTS": "The array appears to be comprehensive. You see forceps, a bone saw, syringes, pliers, even a bottle of chloroform. Unlike the sterility of the rest of the objets there is also a crumpled piece of paper.",
+	"CRUMPLED PAPER": "You uncrumple the ball of paper to find chicken-scratch notes, most of which make no sense to you. Scrawled in the top corner you see the number 4798.",
 	"CART": "It is a metal rolling cart with a bar for a hand towel to hang.",
 	"SHEET": "It is stained and rumpled. Gross.",
 	"CARD TABLE": "It is a normal folding table, one you would be more likely to imagine playing a game at rather than lying down on.",
@@ -93,7 +98,7 @@ var static_object = {
 	"FLOOR": "The dirt looks as though someone has disturbed it and then packed it back down tight.",
 	"PACKED EARTH": "The dirt looks as though someone has disturbed it and then packed it back down tight.",
 	"TRAP DOOR" : "After displacing much of the earth from the floor you reveal a trap door. You heave it open and peer down into a black abyss.
-	\nDOWN is the dfark opening",
+	\nDOWN is the dark opening",
 	"PEWS": "The pews are covered with an extremely thick layer of dust. As you walk by them though, some of that dust kicks into the air and you cough.",
 	"STAINED GLASS": "Strangely, the imagery does not seem to be typically religious. These windows look extremely old but they also bare similar themes to those you have seen about town. There is water and marble buildings. Tenctacles. Hideous creatures. You look away.",
 	"HYMNALS": "They are illegible.",
@@ -138,7 +143,8 @@ var static_object = {
 	"CAVERN": "Its too dark to see much of anything past your hand in front of your face.",
 	"ENGRAVINGS": "The symbols seem to squirm with an alien life of their own. Each stroke tells of cosmic entities and ancient rituals beyond mortal comprehension. You clutch your head. It hurts to look at them.",
 	"CANDLES": "The candles flicker with an otherworldly light. They seem to be glowing rather than burning.",
-	"ALTAR": "It is an unholy monolith, bearing sigils that seem to writhe and shift in the dim, ethereal light"
+	"ALTAR": "It is an unholy monolith, bearing sigils that seem to writhe and shift in the dim, ethereal light",
+	"TREE": "The tree is tall and full of leaves, shading the graves beneath it."
 }
 
 var static_object_location = {
@@ -173,11 +179,14 @@ var static_object_location = {
 	"PACKAGING": "STORE",
 	"MAN": "STORE",
 	"PHOTOGRAPH": "DR OFFICE",
+	"KEYPAD": "DR OFFICE",
+	"SAFE": "DR OFFICE",
 	"SEATS": "DR OFFICE",
 	"INSTRUMENTS": "DARK HALL",
 	"CART": "DARK HALL",
 	"CARD TABLE": "DARK HALL",
 	"SHEET": "DARK HALL",
+	"CRUMPLED PAPER": "DARK HALL",
 	"GORGE": "HOUSING BRIDGE",
 	"BRIDGE": "HOUSING BRIDGE",
 	"ROUNDABOUT": "HOUSING DISTRICT",
@@ -218,6 +227,7 @@ var static_object_location = {
 	"TOMBSTONES": "GRAVEYARD",
 	"MOUNDS": "GRAVEYARD",
 	"BONES": "GRAVEYARD",
+	"TREE": "GRAVEYARD",
 	"RICKETY BRIDGE": "OLD BRIDGE",
 	"BRANCHES":"SMALL PATH",
 	"RIVER": "RIVER EDGE",
@@ -257,7 +267,6 @@ var dig = {
 	"GRAVEYARD": "SHALLOW GRAVE",
 	"HOVEL": "TRAP DOOR"
 }
-
 var sanity_loss = {
 	"KEYS": 3,
 	"CAR": 10,
@@ -271,5 +280,8 @@ var sanity_loss = {
 	"STAINED GLASS": 3,
 	"CARVINGS": 5,
 	"ENGRAVINGS": 5,
-	"ALTAR": 5
+	"ALTAR": 5,
+	"WINDOW": -3,
+	"A HISTORY": -4,
+	"BUCKET HAT": -5
 }

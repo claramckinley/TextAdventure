@@ -54,9 +54,7 @@ var examine = {
 	"CHURCH SANCTUARY": "You stand in a small alcove behind the church alter, the walls are covered in dusty shelves with glass vials and flasks. Labels aged beyond recognition carefully organize the specimens. In quite a few there appear to be bloated objects floating or sunk to the bottom.
 	\nTo the EAST is a simple wooden door",
 	
-#	"UNDER THE CHURCH"
-	
-	"GRAVEYARD": "You stand in a graveyard. A handful of moss-laden tombstones pepper freshly-churned earth piled in neat mounds.
+	"GRAVEYARD": "You stand in a graveyard. A handful of moss-laden tombstones pepper freshly-churned earth piled in neat mounds. A large tree stads at the far end of the lot.
 	\nTo the NORTHEAST is the old church, its decaying steeple casting a long shadow over the graveyard
 	\nTo the NORTHWEST is an old, rickety bridge",
 	
@@ -75,7 +73,7 @@ var examine = {
 	"STORE": "You stand in the town's general store. There are only a few aisles but every one seems near-empty of goods. Except for the salt, which has been untouched. There is one checkout lane open, an elderly, bearded man with sunken eyes and blueish skin stares blankly at the wall.
 	\nTo the WEST is the door",
 	
-	"DR OFFICE": "You stand in what appears to be a local doctor's office. There is a framed photograph of a river gorge spanned by a rickety bridge and a few upended waiting-room seats. 
+	"DR OFFICE": "You stand in what appears to be a local doctor's office. There is a framed photograph of a river gorge spanned by a rickety bridge and a few upended waiting-room seats. On one wall there is a nondescript grey door with a keypad on it.
 	\nTo the EAST is a dark hallway,
 	\nTo the SOUTHWEST is the door",
 	
@@ -138,6 +136,10 @@ var examine = {
 	\nTo the SOUTH is a perilously rocky trail, butting against the sea, 
 	\nTo the EAST is a low tunnel, the floor of which is wet and sharp with obsidian rocks",
 	
+	"LOW TUNNEL": "You lay on your stomach inn extremely low tunnel. In front of you is a small door, as though for a child to crawl through. The door is locked and wont budge however much you beat it but you do notice an odd triangular indentation in the center.
+	\nTo the EAST is the odd locked door,
+	\nTo the WEST is the large cavern",
+	
 	"TEMPLE": "You scramble through the tunnel on your stomach and stand to find yourself in the confines of a temple. Ancient, cyclopean stones rise like jagged teeth, their surfaces coated in grotesque engravings depicting eldritch rites otherworldly abominations. The temple's architecture defies earthly geometry, twisting reality itself into a cosmic alien leviathon. At the far end of the horrific chamber is a central altar surrounded by unearthly flickering candles. 
 	\nTo the WEST is the low tunnel",
 	
@@ -150,7 +152,8 @@ var examine = {
 }
 
 var blockers = {
-	"TUNNELS": "FLASHLIGHT"
+	"TUNNELS": "FLASHLIGHT",
+	"TEMPLE": "STRANGE TRIANGLE"
 }
 
 var up = {
@@ -185,7 +188,8 @@ var east = {
 	"HOUSING DISTRICT": "LIGHTHOUSE",
 	"OLD CHURCH": "HOUSING DISTRICT",
 	"CITY HALL": "TOWN SQUARE",
-	"CAVES": "TEMPLE",
+	"CAVES": "LOW TUNNEL",
+	"LOW TUNNEL": "TEMPLE",
 	"HOTEL LOBBY": "ROOM 428",
 	"DR OFFICE": "DARK HALL",
 	"CHURCH SANCTUARY": "OLD CHURCH"
@@ -213,7 +217,8 @@ var west = {
 	"HOUSING DISTRICT": "OLD CHURCH",
 	"STORE": "TOWN SQUARE",
 	"LIGHTHOUSE": "HOUSING DISTRICT",
-	"TEMPLE": "CAVES",
+	"LOW TUNNEL": "CAVES",
+	"TEMPLE": "LOW TUNNEL",
 	"ROOM 428": "HOTEL LOBBY",
 	"DARK HALL": "DR OFFICE",
 	"OLD CHURCH": "CHURCH SANCTUARY"

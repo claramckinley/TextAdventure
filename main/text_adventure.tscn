@@ -70,7 +70,6 @@ offset_right = 1093.0
 offset_bottom = 592.0
 theme_override_styles/background = SubResource("StyleBoxFlat_y0nok")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6tiwv")
-max_value = 20.0
 rounded = true
 show_percentage = false
 

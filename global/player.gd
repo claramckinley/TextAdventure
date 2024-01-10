@@ -6,7 +6,7 @@ var score = 0
 
 var monster_distance = 5
 
-var sanity = 20
+var sanity = 100
 
 var inventory = ["KEY 428"]
 

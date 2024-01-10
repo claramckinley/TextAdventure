@@ -11,9 +11,10 @@ var change_moves = false
 var start_time
 var footsteps = 5
 var monster_check = true
+var check_password = false
 var max_value = 100
 
-@export var damage = 5
+@export var damage = 20
 
 func _ready():
 	progress_bar.value = max_value
@@ -23,9 +24,9 @@ func _ready():
 	update_display(intro_text.get_as_text())
 	start_time = Time.get_ticks_msec()
 	
-func _process(delta):
+func _process(_delta):
 	if monster_check and Player.monster_distance == 1:
-			update_display("\nthe monster is near")
+			update_display("\nYou hear wet thunking steps. Tentacles dragging and and liquid sloshing.")
 			monster_check = false
 	if footsteps == 0:
 		randomize()
@@ -36,10 +37,7 @@ func _process(delta):
 ##		display_text.visible_ratio = 1
 	if Player.monster_distance == 0:
 		Player.sanity = Player.sanity - damage
-		Player.monster_distance = 5
-		monster_check = true
-	if Player.sanity <= 0:
-		curr_loc = origin
+		progress_bar.value = Player.sanity
 		for key in Objects.examine.keys():
 			if Player.inventory.has(key):
 				var locations = Locations.examine.keys()
@@ -48,8 +46,14 @@ func _process(delta):
 				print(new_loc)
 				Objects.location[key] = new_loc
 				Player.inventory.erase(key)
-		update_display("\nyou were caught by the monster. youre back at the hotel and the car pieces you had are gone...")
-		Player.sanity = 10
+
+		update_display("\nEverything goes black. You sit up in your bed in room 428, no memory of how you got here. You feel your pockets and realize that any car parts you had are most definitely gone...")
+		curr_loc = origin
+		Player.monster_distance = 5
+		monster_check = true
+	if Player.sanity <= 0:
+		await update_display("\nThe madness takes over. You die.")
+		get_tree().quit()
 		
 func update_display(text):
 	display_text.add_text(text + "\n")
@@ -107,8 +111,8 @@ func parse_input(input):
 				update_display("your hands are empty")
 		"DIG":
 			if Objects.dig.has(curr_loc):
-				var dig = Objects.static_object.get(Objects.div[curr_loc])
-				update_display(Objects.div[curr_loc] + "\n" + dig)
+				var dig = Objects.static_object.get(Objects.dig[curr_loc])
+				update_display(Objects.dig[curr_loc] + "\n" + dig)
 		"MOVES":
 			change_moves = false
 			update_display("moves: " + str(Player.moves))
@@ -118,9 +122,6 @@ func parse_input(input):
 		"SANITY":
 			change_moves = false
 			update_display("sanity: " + str(Player.sanity))
-		"MONSTER":
-			change_moves = false
-			update_display("monster: " + str(Player.monster_distance))
 		"TIME":
 			change_moves = false
 			update_display("total time: " + str(snapped((Time.get_ticks_msec() - start_time) / (1000.00 * 60.00), .01)))
@@ -166,12 +167,26 @@ func parse_input(input):
 			if Locations.down.has(curr_loc) and check_travel(Locations.down.get(curr_loc)):
 				curr_loc = Locations.down.get(curr_loc)
 				generate_examine()
+		"PASSWORD":
+			check_password = false
+			if target == "4798":
+				update_display("The keypad beeps cheerily and a tiny green light flashes. The door swings open.")
+				Locations.examine["DR OFFICE"] = "You stand in what appears to be a local doctor's office. There is a framed photograph of a river gorge spanned by a rickety bridge and a few upended waiting-room seats. On the back wall there is an open safe.
+	\nTo the EAST is a dark hallway,
+	\nTo the SOUTHWEST is the door"
+				Objects.location["PISTON"] = "SAFE"
+				Objects.static_object["SAFE"] = "The safe is wide open."
+			else:
+				update_display("The keypad honks at you angrily and a tiny red light flashes. That wasnt the right code.")
 		"EXAMINE OBJECT":
 			if Objects.static_object.has(target) and Objects.static_object_location.get(target) == curr_loc:
 				if target == "CAR":
 					check_complete()
 				else:
 					generate_object_examine()
+				if target == "KEYPAD":
+					generate_object_examine()
+					check_password = true
 			else:
 				update_display("I don't know what that means")
 				
@@ -180,6 +195,9 @@ func separate_input(text):
 		update_display("type something")
 	else:
 		change_moves = true
+	if check_password:
+		target = text
+		return "PASSWORD"
 	text = text.to_upper()
 	if text.contains("EXAMINE"):
 		target = text.trim_prefix("EXAMINE")
@@ -247,8 +265,8 @@ func generate_object_examine():
 	var object = Objects.location.find_key(target)
 	if object != null:
 		update_display(Objects.examine.get(object))
-	if Objects.sanity_loss.find_key(target) != -1:
-		Player.sanity = Player.sanity - Objects.sanity_loss[target]
+	if Objects.sanity_loss.get(target) != null:
+		Player.sanity = Player.sanity - Objects.sanity_loss.get(target)
 		progress_bar.value = Player.sanity
 
 func check_travel(next_loc):
@@ -272,3 +290,6 @@ func check_complete():
 	if Player.inventory.find("BATTERY") != -1 and Player.inventory.find("ALTERNATOR") != -1 and Player.inventory.find("SPARK PLUG") != -1 and Player.inventory.find("CAR KEY") != -1 and Player.inventory.find("BATTERY") != -1:
 		var escape_text = FileAccess.open("res://main/escape.txt", FileAccess.READ)
 		update_display(escape_text.get_as_text())
+	else:
+		generate_object_examine()
+		
