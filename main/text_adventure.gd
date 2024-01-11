@@ -13,8 +13,9 @@ var footsteps = 5
 var monster_check = true
 var check_password = false
 var max_value = 100
-var final_chars
+var final_chars = 0
 var done_typing = false
+var tween
 
 @export var damage = 20
 
@@ -25,6 +26,7 @@ func _ready():
 	var intro_text = FileAccess.open("res://main/intro.txt", FileAccess.READ)
 	update_display(intro_text.get_as_text())
 	start_time = Time.get_ticks_msec()
+	parse_input("EXAMINE")
 	
 func _process(_delta):
 	if monster_check and Player.monster_distance == 1:
@@ -33,11 +35,10 @@ func _process(_delta):
 	if footsteps == 0:
 		randomize()
 		var index = randi_range(0, Player.sounds.size() - 1)
-		update_display(Player.sounds[index])
+		update_display("\n" + Player.sounds[index])
 		footsteps = randi_range(5, 10)
 	if Input.is_action_just_pressed("skip"):
-		print("skip")
-#		display_text.visible_characters = final_chars
+		tween_text(true, "")
 	if Player.monster_distance == 0:
 		Player.sanity = Player.sanity - damage
 		progress_bar.value = Player.sanity
@@ -59,10 +60,15 @@ func _process(_delta):
 		
 func update_display(text):
 	display_text.add_text(text + "\n")
-	final_chars = display_text.get_total_character_count() + text.length()
-	var tween = create_tween()
-	await tween.tween_property(display_text, "visible_characters", final_chars, 10).finished
-
+	tween_text(false, text)
+	
+func tween_text(skip, text):
+	if skip:
+		pass
+	else:
+		tween = create_tween()
+		var time_to_type = 10 #4000.0 / display_text.get_total_character_count()
+		tween.tween_property(display_text, "visible_characters", display_text.get_total_character_count(), Tween.EASE_OUT_IN * 2)
 
 func _on_user_input_text_submitted(new_text):
 	monster_check = true
@@ -254,7 +260,13 @@ func generate_examine():
 		var examine_arr = examine.split("\n\n")
 		update_display(examine_arr[0] + "\n" + Objects.examine.get(object) + "\n" + examine_arr[1])
 	else:
-		update_display(examine)
+		var examine_arr = examine.split("\n\n")
+		if examine_arr.size() == 2:
+			update_display(examine_arr[0] + examine_arr[1])
+		if examine_arr.size() == 1:
+			update_display(examine_arr[0])
+	if curr_loc == "RITUAL ROOM":
+		parse_input("SOUTH")
 
 func generate_object_examine():
 	var examine = Objects.static_object.get(target)
