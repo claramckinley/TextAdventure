@@ -62,12 +62,11 @@ func update_display(text):
 	display_text.add_text(text + "\n")
 	tween_text(false, text)
 	
-func tween_text(skip, text):
+func tween_text(skip, _text):
 	if skip:
 		pass
 	else:
 		tween = create_tween()
-		var time_to_type = 10 #4000.0 / display_text.get_total_character_count()
 		tween.tween_property(display_text, "visible_characters", display_text.get_total_character_count(), Tween.EASE_OUT_IN * 2)
 
 func _on_user_input_text_submitted(new_text):

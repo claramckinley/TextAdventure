@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpinw8nbf51eg"]
+
+[ext_resource type="Script" path="res://main/home_page.gd" id="1_33pxn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_et18i"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="HomePage" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_33pxn")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -463.0
+offset_top = -413.0
+offset_right = 1674.0
+offset_bottom = 1207.0
+color = Color(0.00392157, 0.00392157, 0.00392157, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 1152.0
+offset_bottom = 649.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="CenterContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.92549, 0.92549, 0.92549, 1)
+theme_override_colors/font_hover_color = Color(0, 0.733333, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxFlat_et18i")
+text = "PLAY GAME"
+icon_alignment = 1
+
+[connection signal="pressed" from="CenterContainer/Button" to="." method="_on_button_pressed"]
