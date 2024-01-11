@@ -3,13 +3,13 @@ extends Node
 
 var examine = {
 	"ROOM 428": "You are in a bleak excuse for a room. Exposed wires dangle from the ceiling around a solitary flickering bulb; the bed is small, rumpled, and covered with stained bedsheets and a pillow without a case.
-	\nTo the WEST is the door to the hallway, marks on the door frame suggesting the recent removal of a bolt,
+	\n\n\nTo the WEST is the door to the hallway, marks on the door frame suggesting the recent removal of a bolt,
 	\nTo the NORTH is a door with no handles.",
 	
 	"BATHROOM": "You are in a discouraging relic of a bathroom: there is an ancient marble bowl, a tin tub, and musty wood paneling around all of the plumbing fixtures. There is a little window above the tub.
 	\nTo the SOUTH is a door with no handles.",
 	
-	"MAIN ROAD": "You are on a wide road, the surface worn and cracked .
+	"MAIN ROAD": "You are on a wide road, the surface worn and cracked.
 	\nTo the EAST is your dingey hotel, 
 	\nTo the WEST appears to be a dark forest, thick with trees and tall grass, 
 	\nTo the SOUTH you see a town.",
@@ -21,7 +21,7 @@ var examine = {
 	"WILDS": "You are quite suddenly engulfed in a sea of branches and weeds. It is shockingly disorienting and it feels as though the woods are crawling over your skin. 
 	\nTo the EAST you can just barely make out the edge of the road through the thicket.",
 	
-	"TOWN SQUARE": "You come upon an open concourse with an unkept circular green in the center, clearly some kind of town square. A leaning statue occupies the center of the green, though it appears as though it has been erroded beyond recognition.\n	
+	"TOWN SQUARE": "You come upon an open concourse with an unkept circular green in the center, clearly some kind of town square. A leaning statue occupies the center of the green, though it appears as though it has been erroded beyond recognition. The square and indeed all of the buildings surrounding it are eerliy silent, not even a breeze disturbing the stagnant air.\n	
 	\nTo the WEST you see a large pillard hall hung with torn, faded tapestries,
 	\nTo the NORTH you can see the curve of the main road you came in on,  
 	\nTo the SOUTHWEST is a brick building with dark windows,  
@@ -141,7 +141,10 @@ var examine = {
 	\nTo the WEST is the large cavern",
 	
 	"TEMPLE": "You scramble through the tunnel on your stomach and stand to find yourself in the confines of a temple. Ancient, cyclopean stones rise like jagged teeth, their surfaces coated in grotesque engravings depicting eldritch rites otherworldly abominations. The temple's architecture defies earthly geometry, twisting reality itself into a cosmic alien leviathon. At the far end of the horrific chamber is a central altar surrounded by unearthly flickering candles. 
+	\nTo the NORTH is an arched, stone door with a large golden knob the size of your head in the center,
 	\nTo the WEST is the low tunnel",
+	
+	"RITUAL ROOM": "",
 	
 	"TUNNELS": "The earth has been dug out around you to a height you need to stoop to fit through, the walls are shoulder-width apart and it is pitch black. Your flashlight casts a spotlight on the dark soil around you. You can see some roots reaching through above your head.
 	\nUP is back into the hovel

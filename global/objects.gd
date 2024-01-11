@@ -8,14 +8,15 @@ var location = {
 	"SPARK PLUG": "TREE",
 	"CAR KEY": "WILDS",
 	"PISTON": "",
-	"ALTERNATOR": "DEEP TUNNELS"
+	"ALTERNATOR": "DEEP TUNNELS",
+	"KEY 428": ""
 }
 
 var examine = {
-	"KEY": "There is small key",
-	"SILVER KEY": "There is a silver key",
-	"FLASHLIGHT": "There is a normal flashlight",
-	"STRANGE TRIANGLE": "A strange triangular prism. One side has a three-pronged tooth protruding about half an inch and the other has an intricate releif of triangles.",
+	"KEY 428": "There is a hotel KEY 428.",
+	"FISH TALISMAN": "There is a FISH TALISMAN",
+	"FLASHLIGHT": "There is a normal FLASHLIGHT",
+	"STRANGE TRIANGLE": "A STRANGE TRIANGLE. One side has a three-pronged tooth protruding about half an inch and the other has an intricate releif of triangles.",
 	"BATTERY": "A compact metal box, adorned with a network of cables and terminals: the BATTERY",
 	"SPARK PLUG": "A slender metal rod crowned with a ceramic insulator: the SPARK PLUG",
 	"CAR KEY": "A ring with a set of three ordinary keys, including your house key and a small corkscrew: the CAR KEY",
@@ -42,7 +43,7 @@ var static_object = {
 	\na SPARK PLUG, 
 	\nthe ALTERNATOR, 
 	\nand, though you left the car unlocked, you are missing your CAR KEYS",
-	"HOTEL": "It is a borderline dangerous-looking building car more tall than it is wide. You can see your room way up on the fourth floor and the light you left on.",
+	"HOTEL": "It is a borderline dangerous-looking building far more tall than it is wide. You can see your room way up on the fourth floor and the light you left on.",
 	"ROAD": "Its a normal asphalt road.",
 	"GREEN": "The green could have been a refreshing splash of color in the square if not for the brown knee-high overgrown weeds. 'Green' may have been generous.",
 	"STATUE": "A larger-than-life statue that once-upon-a-time stood proudly in the center of town to welcome newcomers and inspire locals. Now the face has been smoothed to a flat round ball. Newer carvings stand out crudely on the white material: they almost look like an attempted likeness of scales.",
@@ -52,9 +53,9 @@ var static_object = {
 	"DISPLAY CASE": "Inside is an amulet of strange, unearthly splendor: swirling nautical carvings surround oppulent cerulean gems. The carvings are near-unintelligible, though with a curiously disturbing element you can't quite put your finger on.",
 	"CARD CATALOG": "You roll open the first drawer and start leafing through. After a few minutes of browsing you see that an entire drawer has been dedicated to 'Legends of the Sea' or so the label tells you. Another drawer is labeled 'Occult'.",
 	"BOOKS": "There are three books left on the table. 'The Other Gods', 'The Nameless City', 'A History of _____",
-	"A HISTORY": "You read: '____ was founded in 1685. Notable for its shipbuilding and the riots of 1838, the town became extremely superstitious and closed off from the world.'",
-	"THE OTHER GODS": "Much of the tome is illegibile but after flipping through some pages you find something you can make out: 'Then suddenly I saw it. With only a slight churning to mark its rise to the surface, the thing slid into view above the dark waters. Vast, Polyphemus-like, and loathsome, it darted like a stupendous monster of nightmares to the monolith, about which it flung its gigantic scaly arms, the while it bowed its hideous head and gave vent to certain measured sounds. I think I went mad then.'",
-	"THE NAMELESS CITY": "It begins: 'When I drew nigh the Nameless City I knew it was accursed. I was travelling in a parched and terrible valley under the moon, and afar I saw it protruding uncannily above the sands as parts of a corpse may protrude from an ill-made grave.'Then you cannot make out any more.",
+	"A HISTORY": "You read: \n\n'____ was founded in 1685. Notable for its shipbuilding and the riots of 1838, the town became extremely superstitious and closed off from the rest of the world.'",
+	"THE OTHER GODS": "Much of the tome is illegibile but after flipping through some pages you find something you can make out: \n\n'Then suddenly I saw it. With only a slight churning to mark its rise to the surface, the thing slid into view above the dark waters. Vast, Polyphemus-like, and loathsome, it darted like a stupendous monster of nightmares to the monolith, about which it flung its gigantic scaly arms, the while it bowed its hideous head and gave vent to certain measured sounds. I think I went mad then.'",
+	"THE NAMELESS CITY": "It begins: \n\n'When I drew nigh the Nameless City I knew it was accursed. I was travelling in a parched and terrible valley under the moon, and afar I saw it protruding uncannily above the sands as parts of a corpse may protrude from an ill-made grave.' \n\nThen you cannot make out any more.",
 	"SHELVES": "The shelves are tightly packed with books of all shapes, sizes, colors, and languages. It is a truly astounding collection for such a small town.",
 	"AISLES": "The aisles hold squat racks of packaging and cardboard mostly. There is not much left on them otherwise.",
 	"PACKAGING": "The packaging reveals that just about everything that was on the shelf was food and all of it is gone. You see twinkie wrappers, meat packaging, dry pasta containers, empty milk cartons...",

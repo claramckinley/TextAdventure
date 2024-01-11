@@ -13,6 +13,8 @@ var footsteps = 5
 var monster_check = true
 var check_password = false
 var max_value = 100
+var final_chars
+var done_typing = false
 
 @export var damage = 20
 
@@ -33,8 +35,9 @@ func _process(_delta):
 		var index = randi_range(0, Player.sounds.size() - 1)
 		update_display(Player.sounds[index])
 		footsteps = randi_range(5, 10)
-##	if Input.is_action_just_pressed("skip"):
-##		display_text.visible_ratio = 1
+	if Input.is_action_just_pressed("skip"):
+		print("skip")
+#		display_text.visible_characters = final_chars
 	if Player.monster_distance == 0:
 		Player.sanity = Player.sanity - damage
 		progress_bar.value = Player.sanity
@@ -43,7 +46,6 @@ func _process(_delta):
 				var locations = Locations.examine.keys()
 				randomize()
 				var new_loc = locations[randi() % locations.size()]
-				print(new_loc)
 				Objects.location[key] = new_loc
 				Player.inventory.erase(key)
 
@@ -57,14 +59,13 @@ func _process(_delta):
 		
 func update_display(text):
 	display_text.add_text(text + "\n")
-#	var tween = create_tween()
-#	tween.tween_property(display_text, "visible_ratio", 1.0, 15)
-	
+	final_chars = display_text.get_total_character_count() + text.length()
+	var tween = create_tween()
+	await tween.tween_property(display_text, "visible_characters", final_chars, 10).finished
+
 
 func _on_user_input_text_submitted(new_text):
 	monster_check = true
-#	if new_text == "" or new_text == null :
-#		display_text.visible_ratio = 1
 	if change_moves:
 		Player.moves = Player.moves + 1
 		Player.monster_distance = Player.monster_distance - 1
@@ -185,7 +186,6 @@ func parse_input(input):
 				else:
 					generate_object_examine()
 				if target == "KEYPAD":
-					generate_object_examine()
 					check_password = true
 			else:
 				update_display("I don't know what that means")
@@ -216,16 +216,14 @@ func separate_input(text):
 	elif text.contains("DROP"):
 		target = text.trim_prefix("DROP ")
 		return "DROP"
-	elif text.contains("OPEN"):
-		target = text.trim_prefix("OPEN ")
-		return "OPEN"
-	elif text.contains("CLOSE"):
-		target = text.trim_prefix("CLOSE ")
-		return "CLOSE"
 	elif text.contains("DIG"):
 		return "DIG"
 	if text.contains("HELP"):
 		return "HELP"
+	if text == "I":
+		return "INVENTORY"
+	if text == "EX":
+		return "EXAMINE"
 	if text == "N":
 		return "NORTH"
 	if text == "S":
@@ -251,10 +249,12 @@ func generate_examine():
 	display_text.push_color(Color.GREEN)
 	update_display("\n" + curr_loc + "\n")
 	display_text.push_color(Color.WHITE)
-	update_display(examine)
 	var object = Objects.location.find_key(curr_loc)
 	if object != null:
-		update_display(Objects.examine.get(object))
+		var examine_arr = examine.split("\n\n")
+		update_display(examine_arr[0] + "\n" + Objects.examine.get(object) + "\n" + examine_arr[1])
+	else:
+		update_display(examine)
 
 func generate_object_examine():
 	var examine = Objects.static_object.get(target)
