@@ -18,6 +18,7 @@ var final_chars = 0
 var done_typing = false
 var max_monster_distance = 20
 var gun_damage = 10
+var bullet_count = 3
 var tween
 
 
@@ -69,8 +70,7 @@ func _on_user_input_text_submitted(new_text):
 		Player.moves = Player.moves + 1
 		Player.monster_distance = Player.monster_distance - 2
 	user_input.clear()
-	update_display("")
-	update_display("> " + new_text)
+	update_display("\n\n\n> " + new_text)
 	parse_input(new_text)
 	
 func parse_input(input):
@@ -83,7 +83,8 @@ func parse_input(input):
 			var help_text = FileAccess.open("res://main/help.txt", FileAccess.READ)
 			update_display(help_text.get_as_text())
 		"PICK UP":
-			if Objects.location.has(target):
+			print(Player.inventory.size())
+			if Objects.location.has(target) and Objects.location[target] == curr_loc and Player.inventory.size() < 5:
 				Player.inventory.append(target)
 				Objects.location.erase(target)
 				update_display(target + " picked up")
@@ -93,9 +94,12 @@ func parse_input(input):
 					Player.score = Player.score + 10
 					update_display("You have bought yourself more time.")
 			else:
-				update_display("i cant pick that up")
+				if Player.inventory.size() >= 5:
+					update_display("You don't have enough space to carry that.")
+				else:
+					update_display("You cant pick that up")
 		"TAKE":
-			if Objects.location.has(target):
+			if Objects.location.has(target) and Objects.location[target] == curr_loc and Player.inventory.size() < 5:
 				Player.inventory.append(target)
 				Objects.location.erase(target)
 				update_display("took " + target)
@@ -104,7 +108,10 @@ func parse_input(input):
 					Player.monster_distance = max_monster_distance
 					update_display("You have bought yourself more time.")
 			else:
-				update_display("i cant take that")
+				if Player.inventory.size() >= 5:
+					update_display("You don't have enough space to carry that.")
+				else:
+					update_display("You cant take that")
 		"DROP":
 			if Player.inventory.find(target) != -1:
 				Player.inventory.erase(target)
@@ -112,6 +119,7 @@ func parse_input(input):
 				update_display(target + " dropped")
 		"INVENTORY":
 			if Player.inventory.size() > 0:
+				update_display("\nYou are holding (" + str(Player.inventory.size()) + "/5):\n")
 				for i in Player.inventory:
 					update_display(i)
 					change_moves = false
@@ -122,10 +130,14 @@ func parse_input(input):
 				var dig = Objects.static_object.get(Objects.dig[curr_loc])
 				update_display(Objects.dig[curr_loc] + "\n" + dig)
 		"SHOOT":
-			if Player.inventory.has("REVOLVER") and Player.inventory.has("BULLET"):
-				Player.monster_distance = Player.monster_distance + gun_damage
-				Player.inventory.erase("BULLET")
-				update_display("You fire your gun at the creature. It screams and disappears. You have bought yourself some more time.")
+			if Player.inventory.has("REVOLVER") and Player.inventory.has("BULLETS") and bullet_count != 0:
+				bullet_count = bullet_count - 1
+				Objects.examine["BULLETS"] = "There is a mostly empty box of BULLETS (" + str(bullet_count) + ")"
+				if Player.monster_distance <= 2:
+					update_display("You fire your gun at the creature. It screams and disappears. You have bought yourself some more time.")
+					Player.monster_distance = Player.monster_distance + gun_damage
+				else:
+					update_display("You fire your gun. Nothing else happens.")
 			else:
 				update_display("You have nothing to shoot.")
 		"MOVES":
@@ -263,7 +275,7 @@ func separate_input(text):
 	return text
 	
 func generate_examine():
-	display_text.push_color(Color.PAPAYA_WHIP)
+	display_text.push_color(Color.WHITE)
 	var examine = Locations.examine.get(curr_loc)
 	display_text.push_color(Color.GREEN)
 	update_display("\n" + curr_loc + "\n")

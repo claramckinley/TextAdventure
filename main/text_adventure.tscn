@@ -37,7 +37,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 60.0
-offset_top = 30.0
+offset_top = 52.0
 offset_right = -53.0
 offset_bottom = 540.0
 grow_horizontal = 2
@@ -76,10 +76,10 @@ show_percentage = false
 
 [node name="Sanity" type="Label" parent="."]
 layout_mode = 0
-offset_left = 826.0
-offset_top = 554.0
-offset_right = 890.0
-offset_bottom = 574.0
+offset_left = 823.0
+offset_top = 553.0
+offset_right = 887.0
+offset_bottom = 573.0
 text = "SANITY"
 
 [node name="SanityDelta" type="Label" parent="."]

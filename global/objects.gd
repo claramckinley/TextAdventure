@@ -10,13 +10,13 @@ var location = {
 	"PISTON": "",
 	"ALTERNATOR": "DEEP TUNNELS",
 	"KEY 428": "",
-	"BULLET": "STORE",
+	"BULLETS": "STORE",
 	"REVOLVER": "GLOVEBOX",
 }
 
 var examine = {
 	"REVOLVER": "There is a .38 REVOLVER",
-	"BULLET": "There is a single BULLET",
+	"BULLETS": "There is a mostly empty box of BULLETS (3)",
 	"KEY 428": "There is a hotel key: KEY 428.",
 	"FISH TALISMAN": "There is a FISH TALISMAN",
 	"FLASHLIGHT": "There is a normal FLASHLIGHT",
