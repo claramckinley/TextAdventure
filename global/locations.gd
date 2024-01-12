@@ -54,7 +54,7 @@ var examine = {
 	"CHURCH SANCTUARY": "You stand in a small alcove behind the church alter, the walls are covered in dusty shelves with glass vials and flasks. Labels aged beyond recognition carefully organize the specimens. In quite a few there appear to be bloated objects floating or sunk to the bottom.
 	\n\n\nTo the EAST is a simple wooden door",
 	
-	"GRAVEYARD": "You stand in a graveyard. A handful of moss-laden tombstones pepper freshly-churned earth piled in neat mounds. A large tree stads at the far end of the lot.
+	"GRAVEYARD": "You stand in a graveyard. A handful of moss-laden tombstones pepper freshly-churned earth piled in neat mounds. A large tree stands at the far end of the lot.
 	\n\n\nTo the NORTHEAST is the old church, its decaying steeple casting a long shadow over the graveyard
 	\nTo the NORTHWEST is an old, rickety bridge",
 	

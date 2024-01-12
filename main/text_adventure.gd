@@ -3,6 +3,7 @@ extends ColorRect
 @onready var user_input = %UserInput
 @onready var display_text = %DisplayText
 @onready var progress_bar = %ProgressBar
+@onready var typing_timer = $"../TypingTimer"
 
 var origin = "ROOM 428"
 var curr_loc = origin
@@ -15,11 +16,15 @@ var check_password = false
 var max_value = 100
 var final_chars = 0
 var done_typing = false
+var max_monster_distance = 20
+var gun_damage = 10
 var tween
+
 
 @export var damage = 20
 
 func _ready():
+	tween = create_tween()
 	progress_bar.value = max_value
 	user_input.caret_force_displayed = true
 	user_input.grab_focus()
@@ -27,10 +32,13 @@ func _ready():
 	update_display(intro_text.get_as_text())
 	start_time = Time.get_ticks_msec()
 	parse_input("EXAMINE")
+	display_text.push_color(Color.GREEN)
+	update_display("\nType HELP for information on how to play!")
+	display_text.push_color(Color.WHITE)
 	
 func _process(_delta):
-	if monster_check and Player.monster_distance == 1:
-			update_display("\nYou hear wet thunking steps. Tentacles dragging and and liquid sloshing.")
+	if monster_check and Player.monster_distance <= 2:
+			update_display("\nYou hear wet thunking steps. Tentacles dragging and liquid sloshing.")
 			monster_check = false
 	if footsteps == 0:
 		randomize()
@@ -38,43 +46,28 @@ func _process(_delta):
 		update_display("\n" + Player.sounds[index])
 		footsteps = randi_range(5, 10)
 	if Input.is_action_just_pressed("skip"):
-		tween_text(true, "")
+		display_text.visible_characters = display_text.get_total_character_count()
 	if Player.monster_distance == 0:
 		Player.sanity = Player.sanity - damage
 		progress_bar.value = Player.sanity
-		for key in Objects.examine.keys():
-			if Player.inventory.has(key):
-				var locations = Locations.examine.keys()
-				randomize()
-				var new_loc = locations[randi() % locations.size()]
-				Objects.location[key] = new_loc
-				Player.inventory.erase(key)
-
-		update_display("\nEverything goes black. You sit up in your bed in room 428, no memory of how you got here. You feel your pockets and realize that any car parts you had are most definitely gone...")
+		update_display("\nEverything goes black. You sit up in your bed in room 428, no memory of how you got here.")
 		curr_loc = origin
-		Player.monster_distance = 5
+		Player.monster_distance = max_monster_distance
 		monster_check = true
 	if Player.sanity <= 0:
 		await update_display("\nThe madness takes over. You die.")
-		get_tree().quit()
+		get_tree().change_scene_to_file("res://main/end_page.tscn")
 		
 func update_display(text):
 	display_text.add_text(text + "\n")
-	tween_text(false, text)
-	
-func tween_text(skip, _text):
-	if skip:
-		pass
-	else:
-		tween = create_tween()
-		tween.tween_property(display_text, "visible_characters", display_text.get_total_character_count(), Tween.EASE_OUT_IN * 2)
+	typing_timer.start()
 
 func _on_user_input_text_submitted(new_text):
+	print(Player.monster_distance)
 	monster_check = true
 	if change_moves:
 		Player.moves = Player.moves + 1
-		Player.monster_distance = Player.monster_distance - 1
-		footsteps = footsteps - 1
+		Player.monster_distance = Player.monster_distance - 2
 	user_input.clear()
 	update_display("")
 	update_display("> " + new_text)
@@ -94,6 +87,11 @@ func parse_input(input):
 				Player.inventory.append(target)
 				Objects.location.erase(target)
 				update_display(target + " picked up")
+				if Objects.picked_up.has(target) and Objects.picked_up[target] == 0:
+					Objects.picked_up[target] = 1
+					Player.monster_distance = max_monster_distance
+					Player.score = Player.score + 10
+					update_display("You have bought yourself more time.")
 			else:
 				update_display("i cant pick that up")
 		"TAKE":
@@ -101,6 +99,10 @@ func parse_input(input):
 				Player.inventory.append(target)
 				Objects.location.erase(target)
 				update_display("took " + target)
+				if Objects.picked_up.has(target) and Objects.picked_up[target] == 0:
+					Objects.picked_up[target] = 1
+					Player.monster_distance = max_monster_distance
+					update_display("You have bought yourself more time.")
 			else:
 				update_display("i cant take that")
 		"DROP":
@@ -119,6 +121,13 @@ func parse_input(input):
 			if Objects.dig.has(curr_loc):
 				var dig = Objects.static_object.get(Objects.dig[curr_loc])
 				update_display(Objects.dig[curr_loc] + "\n" + dig)
+		"SHOOT":
+			if Player.inventory.has("REVOLVER") and Player.inventory.has("BULLET"):
+				Player.monster_distance = Player.monster_distance + gun_damage
+				Player.inventory.erase("BULLET")
+				update_display("You fire your gun at the creature. It screams and disappears. You have bought yourself some more time.")
+			else:
+				update_display("You have nothing to shoot.")
 		"MOVES":
 			change_moves = false
 			update_display("moves: " + str(Player.moves))
@@ -193,7 +202,7 @@ func parse_input(input):
 				if target == "KEYPAD":
 					check_password = true
 			else:
-				update_display("I don't know what that means")
+				update_display("I don't know what that means.")
 				
 func separate_input(text):
 	if text == "" or text == null:
@@ -245,11 +254,16 @@ func separate_input(text):
 		return "NORTHEAST"
 	if text == "SE":
 		return "SOUTHEAST"
+	if text == "D":
+		return "DOWN"
+	if text == "U":
+		return "UP"
 	else:
 		target = ""
 	return text
 	
 func generate_examine():
+	display_text.push_color(Color.PAPAYA_WHIP)
 	var examine = Locations.examine.get(curr_loc)
 	display_text.push_color(Color.GREEN)
 	update_display("\n" + curr_loc + "\n")
@@ -266,6 +280,7 @@ func generate_examine():
 			update_display(examine_arr[0])
 	if curr_loc == "RITUAL ROOM":
 		parse_input("SOUTH")
+	
 
 func generate_object_examine():
 	var examine = Objects.static_object.get(target)
@@ -278,6 +293,8 @@ func generate_object_examine():
 		update_display(Objects.examine.get(object))
 	if Objects.sanity_loss.get(target) != null:
 		Player.sanity = Player.sanity - Objects.sanity_loss.get(target)
+		$"../SanityDelta".text = str(-1 * Objects.sanity_loss.get(target))
+		$"../DeltaTimer".start()
 		progress_bar.value = Player.sanity
 
 func check_travel(next_loc):
@@ -288,12 +305,12 @@ func check_travel(next_loc):
 			update_display("used " + blocker)
 			if blocker.contains("KEY"):
 				Player.inventory.erase(blocker)
-			Player.monster_distance = Player.monster_distance + 2
+			Player.monster_distance = Player.monster_distance + 1
 			return true
 		else:
 			update_display("you dont have " + blocker)
 	else:
-		Player.monster_distance = Player.monster_distance + 2
+		Player.monster_distance = Player.monster_distance + 1
 		return true
 	return false
 	
@@ -304,3 +321,15 @@ func check_complete():
 	else:
 		generate_object_examine()
 		
+
+
+func _on_delta_timer_timeout():
+	$"../DeltaTimer".stop()
+	$"../SanityDelta".text = ""
+
+
+func _on_typing_timer_timeout():
+	if display_text.visible_characters < display_text.get_total_character_count():
+		display_text.visible_characters += 1
+	else:
+		typing_timer.stop()

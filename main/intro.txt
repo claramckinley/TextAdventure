@@ -1,5 +1,9 @@
-It's starting to get late and the gas meter on your car is hovering on the last tick...it looks like there is a town up ahead you might be able to stop in for the night and hopefully get some gas.
+You are a weary traveler, alone in the eerie twilight of a desolate highway. Your radio has been your only company for hours and you havent passed a gas station for many many miles.
 
-You find a small hotel with a crooked open sign hung in the window for you to stay in for the night.
+Your vehicle sputters, the needle on your gas gauge dipping perilously low. Knuckles white on the wheel, the next gentle curve through the trees quite suddenly reveals a dilapidated welcome sign: Welcome to ________. And down the way you see a gas station. 
 
-You park your car and check in.
+You fill up and decide it is far too late and your eyes are far too blurred to continue your trek. You drive down the road a ways and come across a tired-looking hotel.
+
+Bleary-eyed you stumble into the lobby, where a very thin man, the innkeeper, silently holds out a set of keys labeled room 428 and gestures with a long spidery arm toward a narrow staircase.
+
+As though in a dream, you ascend to your room for the night.

@@ -1,18 +1,22 @@
 extends Node
 
 var location = {
-	"FLASHLIGHT": "STORE",
-	"SILVER KEY": "BRICKS",
+	"FLASHLIGHT": "LIBRARY",
+	"FISH TALISMAN": "BRICKS",
 	"STRANGE TRIANGLE": "CHURCH",
 	"BATTERY": "TOP OF LIGHTHOUSE",
 	"SPARK PLUG": "TREE",
 	"CAR KEY": "WILDS",
 	"PISTON": "",
 	"ALTERNATOR": "DEEP TUNNELS",
-	"KEY 428": ""
+	"KEY 428": "",
+	"BULLET": "STORE",
+	"REVOLVER": "GLOVEBOX",
 }
 
 var examine = {
+	"REVOLVER": "There is a .38 REVOLVER",
+	"BULLET": "There is a single BULLET",
 	"KEY 428": "There is a hotel key: KEY 428.",
 	"FISH TALISMAN": "There is a FISH TALISMAN",
 	"FLASHLIGHT": "There is a normal FLASHLIGHT",
@@ -22,6 +26,18 @@ var examine = {
 	"CAR KEY": "A ring with a set of three ordinary keys, including your house key and a small corkscrew: the CAR KEY",
 	"PISTON": "A short, almost wrench-like metal object with a hefty round head: the PISTON",
 	"ALTERNATOR": "A cylindrical metal block with spiked with metal fins: the ALTERNATOR"
+}
+
+var picked_up = {
+	"FLASHLIGHT": 0,
+	"FISH TALISMAN": 0,
+	"STRANGE TRIANGLE": 0,
+	"BATTERY": 0,
+	"SPARK PLUG": 0,
+	"CAR KEY": 0,
+	"PISTON": 0,
+	"ALTERNATOR": 0,
+	"KEY 428": 0
 }
 
 var static_object = {
@@ -37,14 +53,18 @@ var static_object = {
 	"WALLPAPER": "The wallpaper has a subtle floral motif.",
 	"CONCIERGE DESK": "Its a sturdy brown desk marred by years of use and stained with the dirt of travelers.",
 	"KEYS": "A grid of 5 by 5 hooks boasts a hearty 24 keys. The 25th is in your pocket. You are the sole guest here.",
-	"CAR": "The hood of the car creaks open and you take stock. 
+	"SIGN": "Its a thin slice of wood dangling from two chains.",
+	"CAR": "You sit in the driver's seat. Your old leather seats are cracked but familiar. The glove box is cracked open slightly. Out the front window you notice the hood of the car is not closed. The get out and fully open the hood to take stock. 
 	\nThere are parts missing, cables unhooked and yawning, previously-occupied spaces. After a brief survey of the damage you note that you are missing: 
 	\nthe BATTERY, 
 	\na PISTON, 
 	\na SPARK PLUG, 
 	\nthe ALTERNATOR, 
 	\nand, though you left the car unlocked, you are missing your CAR KEYS",
+	"LEATHER SEATS": "The seats are barely holding together.",
+	"GLOVEBOX": "Old documents and abandoned mints fill the compartment.",
 	"HOTEL": "It is a borderline dangerous-looking building far more tall than it is wide. You can see your room way up on the fourth floor and the light you left on.",
+	"WEEDS": "They are wild and tall, choking out any other space and light.",
 	"ROAD": "Its a normal asphalt road.",
 	"SLEEPING PERSON": "All you can see of them is a pile of coats, a ratty cap covering their face, though greasy black hair peeks out from underneath, and their hand lazily brushing the ground. The skin of their hand is so pale it looks almost white, though their nails are blackened, their fingers partially blue. The lump of clothes rises and falls slightly, but had it not you would've been worried they were dead.",
 	"PERSON": "All you can see of them is a pile of coats, a ratty cap covering their face, though greasy black hair peeks out from underneath, and their hand lazily brushing the ground. The skin of their hand is so pale it looks almost white, though their nails are blackened, their fingers partially blue. The lump of clothes rises and falls slightly, but had it not you would've been worried they were dead.",
@@ -171,6 +191,10 @@ var static_object_location = {
 	"KEYS": "HOTEL LOBBY",
 	"CAR": "WEST OF HOTEL",
 	"HOTEL": "WEST OF HOTEL",
+	"SIGN": "WEST OF HOTEL",
+	"WEEDS": "WILDS",
+	"LEATHER SEATS": "WEST OF HOTEL",
+	"GLOVEBOX": "WEST OF HOTEL",
 	"ROAD": "MAIN ROAD",
 	"GREEN": "TOWN SQUARE",
 	"STATUE": "TOWN SQUARE",
@@ -202,7 +226,7 @@ var static_object_location = {
 	"GORGE": "HOUSING BRIDGE",
 	"BRIDGE": "HOUSING BRIDGE",
 	"ROUNDABOUT": "HOUSING DISTRICT",
-	"MAILBOXES": "HOUSING DISTRCIT",
+	"MAILBOXES": "HOUSING DISTRICT",
 	"HOUSES": "HOUSING DISTRICT",
 	"TWIN SIZED BED": "HOUSE",
 	"BROWN WATER": "HOUSE",
@@ -298,6 +322,10 @@ var sanity_loss = {
 	"CARVINGS": 5,
 	"ENGRAVINGS": 5,
 	"DARK SHAPE": 10,
+	"PERSON": 5,
+	"SLEEPING PERSON": 5,
+	"THE OTHER GODS": 5,
+	"THE NAMELESS CITY": 5,
 	"ALTAR": 5,
 	"WINDOW": -3,
 	"A HISTORY": -4,
