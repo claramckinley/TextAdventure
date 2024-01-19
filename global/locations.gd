@@ -14,14 +14,14 @@ var examine = {
 	\nTo the WEST appears to be a dark forest, thick with trees and tall grass, 
 	\nTo the SOUTH you see a town.",
 	
-	"WEST OF HOTEL": "Beside you is a sagging hotel, peeling paint and a creaking sign welcome you. Your car is parked in front.
+	"WEST OF HOTEL": "Beside you is a sagging hotel, peeling paint and a creaking sign welcome you. Your car is parked in front. As you step out of the hotel it feels as though there is something following you. Something lurking in the distance, watching you. 
 	\n\n\nTo the EAST is the front door to the hotel,
 	\nTo the WEST is what looks like the main road.",
 	
 	"WILDS": "You are quite suddenly engulfed in a sea of branches and weeds. It is shockingly disorienting and it feels as though the woods are crawling over your skin. Not even a buzz or a chirp breaks the silence.
 	\n\n\nTo the EAST you can just barely make out the edge of the road through the thicket.",
 	
-	"TOWN SQUARE": "You come upon an open concourse with an unkept circular green in the center, clearly some kind of town square. A leaning statue occupies the center of the green, though it appears as though it has been erroded beyond recognition. In front of the statue is a wrought iron bench; laying on the bench, a hat covering their face is a person sleeping. The square and indeed all of the buildings surrounding it are eerliy silent, not even a breeze disturbing the stagnant air.\n	
+	"TOWN SQUARE": "You come upon an open concourse with an unkept circular green in the center, clearly some kind of town square. A leaning statue occupies the center of the green, though it appears as though it has been erroded beyond recognition. In front of the statue is a wrought iron bench; laying on the bench is a person sleeping, a hat covering their face. The square and indeed all of the buildings surrounding it are eerliy silent, not even a breeze disturbing the stagnant air.\n	
 	\n\n\nTo the WEST you see a large pillard hall hung with torn, faded tapestries,
 	\nTo the NORTH you can see the curve of the main road you came in on,  
 	\nTo the SOUTHWEST is a brick building with dark windows,  
@@ -31,7 +31,7 @@ var examine = {
 	\nTo the SOUTH you see a bridge.",
 	
 	"HOTEL LOBBY": "You are in the shabby lobby of a small hotel. Dim lights highlight faded carpet and peeling wallpaper. There is a lone concierge desk, dusty with lack of use and a wall of keys hanging in silent disarray. It appears there are quite a few vacancies.
-	\n\n\nTo the WEST is a simple brown door
+	\n\n\nTo the WEST is the exit
 	\nTo the EAST is a rickety set of stairs barely wide enough to fit one person.",
 	
 	"HOUSING BRIDGE": "You approach a bridge spanning a deep river gorge. As you cross you feel eyes on you, but when you whip your head around you see no one.
@@ -48,7 +48,7 @@ var examine = {
 	
 	"OLD CHURCH": "You stand inside an old church. Pews sagging under the weight of years; once-vibrant stained glass now milky with caked-on dust; scattered hymnals litter the floor, pages torn. 
 	\n\n\nTo the EAST is the housing district, 
-	\nTo the WEST is a simple wooden door,
+	\nTo the WEST is the exit,
 	\nTo the SOUTHWEST is a modest graveyard",
 	
 	"CHURCH SANCTUARY": "You stand in a small alcove behind the church alter, the walls are covered in dusty shelves with glass vials and flasks. Labels aged beyond recognition carefully organize the specimens. In quite a few there appear to be bloated objects floating or sunk to the bottom.
@@ -71,20 +71,20 @@ var examine = {
 	\n\n\nTo the NORTHWEST you see the edge of a small path leading back up along the side of the steep incline",
 	
 	"STORE": "You stand in the town's general store. There are only a few aisles but every one seems near-empty of goods. Except for the salt, which has been untouched. There is one checkout lane open, an elderly, bearded man with sunken eyes and blueish skin stares blankly at the wall.
-	\n\n\nTo the WEST is the door",
+	\n\n\nTo the WEST is the exit",
 	
-	"DR OFFICE": "You stand in what appears to be a local doctor's office. There is a framed photograph of a river gorge spanned by a rickety bridge and a few upended waiting-room seats. On one wall there is a nondescript grey door with a keypad on it.
+	"DR OFFICE": "You stand in what appears to be a local doctor's office. There is a framed photograph of a river gorge spanned by a rickety bridge and a few upended waiting-room seats. On one wall there is a nondescript grey safe with a keypad on it.
 	\n\n\nTo the EAST is a dark hallway,
-	\nTo the SOUTHWEST is the door",
+	\nTo the SOUTHWEST is the exit",
 	
 	"DARK HALL": "You walk down the dark hallway and enter a back room where a cart of sterile instruments sits prepped in a makeshift operating room. A folding card table stands in the center covered with a slightly stained white sheet.
 	\n\n\nTo the WEST is the waiting room",
 	
 	"LIBRARY": "You are in a library with impressively towering shelves that brush the surprisingly high ceiling. The books are meticulously organized and a dusty card catalog stands off to your right. A few books lay open on a central table as though forgotten mid-read.
-	\n\n\nTo the NORTHEAST is the door",
+	\n\n\nTo the NORTHEAST is the exit",
 	
 	"CITY HALL": "You are in a large circular room with a raised bench at the far end, gavels lay abandoned atop stacks of yellowing parchment. There stands a display case in the center of the room cordoned off with velvet ropes and surrounded in concentric circles by folding chairs. 
-	\n\n\nTo the EAST is the door",
+	\n\n\nTo the EAST is the exit",
 	
 	"LIGHTHOUSE": "You stand inside of the lighthouse. The walls are rounded, made of red bricks and the floor is muddied with criss-crossing footprints. In the center of the room is an iron spiral staircase that reaches far up to the top of the lighthouse. In the room with you is a modest cot, a writing desk with a wire lamp and a ratty shade, and a cabinet.
 	\n\n\nUP is the top of the lighthouse
@@ -112,19 +112,19 @@ var examine = {
 	"BASE OF LIGHTHOUSE": "You scramble over the wet rocks and find purchase on the other side. In front of you there is a large, dark shape on the ground.
 	\n\n\nTo the WEST is the beach",
 	
-	"SOUTH BEACH": "You stand in front of a large burnt-out bonfire. The ground is covered with ash and surrounding the pile are crooked stones with eldritch carvings hacked into their surfaces, dark splashes of mysterious ichor mars the face of the one beside you.
-	\n\n\nTo the NORTH you can see the lighthosue",
+	"SOUTH BEACH": "You stand in front of a large burnt-out bonfire. The ground is covered with ash and surrounding the pile are crooked stones with eldritch carvings hacked into their surfaces, dark splashes of mysterious ichor mar the face of the one beside you.
+	\n\n\nTo the NORTH you can see the lighthouse",
 	
 	"HOUSE": "You stand inside a small, bare, one-bedroom house. There is a twin-sized bed in the corner and a bowl of brown water on the ground beside it. Hay covers the floor, a half-hearted attempt at a carpet, and a tiny desk has been shoved into the corner. In the dim light from an exposed bulb on the ceiling you can see that the walls, ground, ceiling, and furniture have all been mercilously carved and etched with black ink. Symbols upon symbols of nautical horror surround you and envelop you.
-	\n\n\nTo the NORTHEAST is the door",
+	\n\n\nTo the NORTHEAST is the exit",
 	
 	"HOVEL": "You enter the deserted hovel whose dark gaping windows and perilous lean suggest you dont take your time. Inside is bare: no furniture, windows boarded up, exposed beams above your head, floor made of packed earth. 
-	\n\n\nTo the NORTH is the door",
+	\n\n\nTo the NORTH is the exit",
 	
 	"MANSION": "You enter an opulent mansion. A dazzling grand staircase winds upward in front of you and lush draperies adorn every surface.
 	\n\n\nTo the SOUTHEAST is the staircase
 	\nTo the SOUTHWEST is a door
-	\nTo the NORTHWEST is the front door",
+	\nTo the NORTHWEST is the exit",
 	
 	"UPSTAIRS": "You walk up the stairs, feeling transported to a world of dramatic riches. The banister is a thick, dark wood, so shiny you can see your reflection.
 	\n\n\nTo the SOUTHEAST is a lone door,
@@ -275,8 +275,3 @@ var southwest = {
 
 var cross = {
 }
-
-#func can_fit():
-#	if Player.inventory.size() > 3:
-#		return "You are carrying too much stuff"
-	

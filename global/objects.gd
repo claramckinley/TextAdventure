@@ -3,20 +3,27 @@ extends Node
 var location = {
 	"FLASHLIGHT": "LIBRARY",
 	"FISH TALISMAN": "BRICKS",
-	"STRANGE TRIANGLE": "CHURCH",
+	"STRANGE TRIANGLE": "OLD CHURCH",
 	"BATTERY": "TOP OF LIGHTHOUSE",
 	"SPARK PLUG": "TREE",
 	"CAR KEY": "WILDS",
 	"PISTON": "",
 	"ALTERNATOR": "DEEP TUNNELS",
 	"KEY 428": "",
-	"BULLETS": "STORE",
-	"REVOLVER": "GLOVEBOX",
+	".38 REVOLVER": "GLOVEBOX",
 }
 
+var bullets = [
+	"AISLES",
+	"GLOVEBOX",
+	"MAILBOXES",
+	"CARD CATALOG",
+	"SANDY HOLE",
+	"SHALLOW GRAVE"
+]
+
 var examine = {
-	"REVOLVER": "There is a .38 REVOLVER",
-	"BULLETS": "There is a mostly empty box of BULLETS (3)",
+	".38 REVOLVER": "There is a .38 REVOLVER with no bullets",
 	"KEY 428": "There is a hotel key: KEY 428.",
 	"FISH TALISMAN": "There is a FISH TALISMAN",
 	"FLASHLIGHT": "There is a normal FLASHLIGHT",
@@ -54,13 +61,15 @@ var static_object = {
 	"CONCIERGE DESK": "Its a sturdy brown desk marred by years of use and stained with the dirt of travelers.",
 	"KEYS": "A grid of 5 by 5 hooks boasts a hearty 24 keys. The 25th is in your pocket. You are the sole guest here.",
 	"SIGN": "Its a thin slice of wood dangling from two chains.",
-	"CAR": "You sit in the driver's seat. Your old leather seats are cracked but familiar. The glove box is cracked open slightly. Out the front window you notice the hood of the car is not closed. The get out and fully open the hood to take stock. 
+	"CAR": "You sit in the driver's seat. Your old leather seats are cracked but familiar. The glovebox is cracked open slightly. Out the front window you notice the hood of the car is not closed. You get out and fully open the hood to take stock. 
 	\nThere are parts missing, cables unhooked and yawning, previously-occupied spaces. After a brief survey of the damage you note that you are missing: 
 	\nthe BATTERY, 
 	\na PISTON, 
 	\na SPARK PLUG, 
 	\nthe ALTERNATOR, 
 	\nand, though you left the car unlocked, you are missing your CAR KEYS",
+	"DOCUMENTS": "Your car insurance. Exciting.",
+	"MINTS": "They are very old, barely a step from dust.",
 	"LEATHER SEATS": "The seats are barely holding together.",
 	"GLOVEBOX": "Old documents and abandoned mints fill the compartment.",
 	"HOTEL": "It is a borderline dangerous-looking building far more tall than it is wide. You can see your room way up on the fourth floor and the light you left on.",
@@ -90,6 +99,7 @@ var static_object = {
 	"SEATS": "The chairs seem like they would be comfortable. Wonder why they are knocked over?",
 	"INSTRUMENTS": "The array appears to be comprehensive. You see forceps, a bone saw, syringes, pliers, even a bottle of chloroform. Unlike the sterility of the rest of the objets there is also a crumpled piece of paper.",
 	"CRUMPLED PAPER": "You uncrumple the ball of paper to find chicken-scratch notes, most of which make no sense to you. Scrawled in the top corner you see the number 4798.",
+	"PAPER": "You uncrumple the ball of paper to find chicken-scratch notes, most of which make no sense to you. Scrawled in the top corner you see the number 4798.",
 	"CART": "It is a metal rolling cart with a bar for a hand towel to hang.",
 	"SHEET": "It is stained and rumpled. Gross.",
 	"CARD TABLE": "It is a normal folding table, one you would be more likely to imagine playing a game at rather than lying down on.",
@@ -128,12 +138,12 @@ var static_object = {
 	"HYMNALS": "They are illegible.",
 	"VIALS": "Within the vials you can see bugs and small creatures, some from land critters and some aquatic ones.",
 	"FLASKS": "Dark yellow and brown liquid fills the flasks. You pick one up and swirl it around. Thick sediment shifts on the bottom revealing a black blob that expands and contracts with the movement of the liquid.",
-	"LABELS": "They are so worn with age you cant read any text. The sticky residue remains is all that remains.",
+	"LABELS": "Most are so worn with age you cant read any text. The sticky residue is all that remains. On one of them you can just make out the letters: L-I-V-E-R",
 	"SPECIMENS": "Disturbing chunks float around in the largest vials. From your limited knowledge you are able to recognize organs: a small brain, a heart, a stomach, some objects that look uncomfortably like human fingers.",
 	"OBJECTS": "They are disgusting, whatever they are.",
 	"TOMBSTONES": "The tombstones are laid out in an unorganized smattering. Many of them are blank, merely marking the presence of a grave, not identifying the person within.",
 	"MOUNDS": "The ground around some of the headstones is darker than the rest of the earth and raised, as though a freshly-filled grave. Or freshly disturbed.",
-	"SHALLOW GRAVE": "You sink to your knees and dig with your hands, dirt worming its way under your fingertips. It doesnt take long for you to brush against something hard. With a little more effort you reveal a pile of bones. Yes, a pile. These were already bones when tossed into this hole and covered.",
+	"SHALLOW GRAVE": "You sink to your knees and dig with your hands, dirt worming its way under your fingernails. It doesnt take long for you to brush against something hard. With a little more effort you reveal a pile of bones. Yes, a pile. These were already bones when tossed into this hole and covered.",
 	"BONES": "They are surprisingly white. You don't know if that means they are very very old or very very fresh...Either way you can see deep gouges along a lot of them.",
 	"RICKETY BRIDGE": "I wouldnt stand here for too long...",
 	"BRANCHES": "The leaves are thick and the branches are sharp but your skin is mostly covered so it mostly just feels tight.",
@@ -165,6 +175,7 @@ var static_object = {
 	"ROWBOAT": "From what you can tell this far away it is a very small row boat. Likely a grown adult's knees would be zipped together to even fit. It is far too small for the roughness of the water.",
 	"SEAWEED": "It looks nasty.",
 	"BONFIRE": "It must've been an absolutely massive fire. The sheer size of the aftermath points to the largest fire you would have ever seen.",
+	"SANDY HOLE": "You dig down with your hands into the sand. It gets darker the deeper you go.",
 	"ASH": "It is ash. An educated guess suggests it came from the bonfire.",
 	"STONES": "The stones are smooth and round. Completely smooth and round like a large hip-height ball. When you run your hands across the surface of one it feels almost silky soft.",
 	"CARVINGS": "The carvings sear themselves into your brain. When you close your eyes you still see them. They are carved with confident, elegant swoops as though painted onto the stones, though the gashes are inches deep.",
@@ -190,6 +201,8 @@ var static_object_location = {
 	"CONCIERGE DESK": "HOTEL LOBBY",
 	"KEYS": "HOTEL LOBBY",
 	"CAR": "WEST OF HOTEL",
+	"DOCUMENTS": "WEST OF HOTEL",
+	"MINTS": "WEST OF HOTEL",
 	"HOTEL": "WEST OF HOTEL",
 	"SIGN": "WEST OF HOTEL",
 	"WEEDS": "WILDS",
@@ -223,6 +236,7 @@ var static_object_location = {
 	"CARD TABLE": "DARK HALL",
 	"SHEET": "DARK HALL",
 	"CRUMPLED PAPER": "DARK HALL",
+	"PAPER": "DARK HALL",
 	"GORGE": "HOUSING BRIDGE",
 	"BRIDGE": "HOUSING BRIDGE",
 	"ROUNDABOUT": "HOUSING DISTRICT",
@@ -306,7 +320,8 @@ var static_object_location = {
 
 var dig = {
 	"GRAVEYARD": "SHALLOW GRAVE",
-	"HOVEL": "TRAP DOOR"
+	"HOVEL": "TRAP DOOR",
+	"SOUTH BEACH": "SANDY HOLE"
 }
 var sanity_loss = {
 	"KEYS": 3,
