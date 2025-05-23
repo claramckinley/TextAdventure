@@ -141,16 +141,16 @@ func check_waiting_for_answer(new_text):
 		if curr_loc == "RIVER EDGE":
 			check_ending("RIVER")
 		elif curr_loc == "LIGHTHOUSE BRIDGE":
-			update_display(false, "\n " + Objects.yes[waiting])
+			update_display(false, "\n" + Objects.yes[waiting])
 			curr_loc = "LIGHTHOUSE BRIDGE LEDGE"
 			generate_examine()
 		elif curr_loc == "CITY HALL":
-			update_display(false, "\n " + Objects.yes[waiting])
+			update_display(false, "\n" + Objects.yes[waiting])
 			update_sanity(damage)
 		else:
-			update_display(false, "\n " + Objects.yes[waiting])
+			update_display(false, "\n" + Objects.yes[waiting])
 	elif new_text.to_upper() == "NO":
-		update_display(false, "\n " + Objects.no[waiting])
+		update_display(false, "\n" + Objects.no[waiting])
 		waiting_for_ans = false
 	else:
 		update_display(false, "\nPlease answer YES or NO.")		
