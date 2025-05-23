@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/565143__blackatomproductions__cavemixa.mp3-9f8a1cbd5745e2d984b09e85bec7b886.mp3str"
+
+[deps]
+
+source_file="res://main/565143__blackatomproductions__cavemixa.mp3"
+dest_files=[ "res://.import/565143__blackatomproductions__cavemixa.mp3-9f8a1cbd5745e2d984b09e85bec7b886.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

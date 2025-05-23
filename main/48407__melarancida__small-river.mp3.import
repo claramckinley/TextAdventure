@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/48407__melarancida__small-river.mp3-acbb496d460dd6c7c801a3fcc120f633.mp3str"
+
+[deps]
+
+source_file="res://main/48407__melarancida__small-river.mp3"
+dest_files=[ "res://.import/48407__melarancida__small-river.mp3-acbb496d460dd6c7c801a3fcc120f633.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

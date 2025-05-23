@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/331220__yoyodaman234__ocean-waves-at-the-beach-2.mp3-1196f5e97a32f7e6b348607d0ef77bbf.mp3str"
+
+[deps]
+
+source_file="res://main/331220__yoyodaman234__ocean-waves-at-the-beach-2.mp3"
+dest_files=[ "res://.import/331220__yoyodaman234__ocean-waves-at-the-beach-2.mp3-1196f5e97a32f7e6b348607d0ef77bbf.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

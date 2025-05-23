@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/173980__hoersturz__20130103_151218_oslofjord_colorfantasy_foghorn_stern.wav-b5c1db58b5dfef2dfa5fc798da7fc655.sample"
+
+[deps]
+
+source_file="res://main/173980__hoersturz__20130103_151218_oslofjord_colorfantasy_foghorn_stern.wav"
+dest_files=[ "res://.import/173980__hoersturz__20130103_151218_oslofjord_colorfantasy_foghorn_stern.wav-b5c1db58b5dfef2dfa5fc798da7fc655.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

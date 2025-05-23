@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/793483__ilariio__creepy-ambient-horror-soundscape.mp3-f46f6a17029d6e49b859a1c0839a1891.mp3str"
+
+[deps]
+
+source_file="res://793483__ilariio__creepy-ambient-horror-soundscape.mp3"
+dest_files=[ "res://.import/793483__ilariio__creepy-ambient-horror-soundscape.mp3-f46f6a17029d6e49b859a1c0839a1891.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

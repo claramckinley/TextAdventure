@@ -1,0 +1,17 @@
+
+(green)DIRECTIONS:(white)
+	you can use use NORTH (N), SOUTH (S), EAST (E), WEST (W), NORTHWEST (NW), SOUTHWEST (SW), NORTHEAST (NE), SOUTHEAST (SE), UP (U), or DOWN (D) to navigate through the world.
+	
+(green)COMMANDS:(white)
+	type EXAMINE (EX or L) to look at the space you are in 
+	type EXAMINE (EX or L) ______ to specify an object to look at: "EXAMINE WINDOW" OR "EX TABLE" 
+	type PICK UP/TAKE ______ to pick up an object: "TAKE KEY"
+	type DROP ______ to drop an object: "DROP KEY"
+	type USE ______ to use an object: "USE GUN"
+	type INVENTORY (I) to see what you're holding
+		
+	type TIME to see how long you have played
+	type MUTE/UNMUTE to turn on and off the sound
+	type QUIT to end the game
+
+	press ESC or SPACE key to auto-complete text and skip typing

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/714925__muyo5438__spooky-piano-and-vox.mp3-c3ecb4526ce79ad3a46846c19bca686d.mp3str"
+
+[deps]
+
+source_file="res://global/714925__muyo5438__spooky-piano-and-vox.mp3"
+dest_files=[ "res://.import/714925__muyo5438__spooky-piano-and-vox.mp3-c3ecb4526ce79ad3a46846c19bca686d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
