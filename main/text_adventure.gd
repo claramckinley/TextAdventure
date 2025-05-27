@@ -29,7 +29,7 @@ var bullet_success = 0
 var game_over = false
 var max_scroll_length = 0
 var temp_text = ""
-var start_text = true
+var start_text = false
 var end_scene = false
 var waiting_for_ans = false
 var must_shoot = false
@@ -40,6 +40,7 @@ var beach_present = ["BEACH", "SOUTH BEACH"]
 var wilds_present = ["WILDS", "SMALL PATH", "NORTH OF HOTEL"]
 var river_present = ["RIVER EDGE"]
 var dock_present = ["DOCKS"]
+var graveyard_present = ["GRAVEYARD"]
 var cave_present = ["CAVES", "LOW TUNNEL"]
 var buy_time = ["CAR KEY", "BATTERY", "PISTON", "SPARK PLUG", "ALTERNATOR"]
 var multi_use_objects =["FLASHLIGHT", "SHOVEL", ".38 REVOLVER"]
@@ -47,6 +48,8 @@ var bullet_icons
 var monster_text = ""
 var question_text = ""
 var sanity_text = true
+var is_diary = false
+var backup = []
 
 export var damage = 20
 
@@ -65,6 +68,10 @@ func _ready():
 	bullet_icons = [bullet1, bullet2, bullet3, bullet4, bullet5, bullet6]
 	
 func _process(_delta):
+	if Input.is_action_pressed("up"):
+		scroll_bar.value = scroll_bar.value - 5
+	if Input.is_action_pressed("down"):
+		scroll_bar.value = scroll_bar.value + 5
 	if Player.monster_distance == 1 || Player.monster_distance == 2 || Player.monster_distance == 3:
 		if $"../monster_background".playing == false:
 			$"../monster_background".play()
@@ -83,10 +90,11 @@ func _process(_delta):
 				display_text.add_text(j)
 		temp_text = ""
 	if !game_over and Player.monster_distance <= 0:
-		update_sanity(damage)
-		if Player.sanity <= 0:
+		if Player.sanity - damage <= 0:
+			Player.sanity = Player.sanity - damage
 			check_ending("MONSTER")
 		else:
+			update_sanity(damage)
 			curr_loc = origin
 			update_display("GREEN", "\n" + curr_loc + "\n")
 			update_display(false, "\nEverything goes black. You sit up in your bed in room 428, no memory of how you got here.\n\n\nTo the WEST is the door to the hallway, marks on the door frame suggesting the recent removal of a bolt,\nTo the NORTH is a door with no handles.")
@@ -105,6 +113,7 @@ func update_display(color, text):
 		"RED":
 			text = "(red)" + str(text) + "(white)"
 	temp_text = temp_text + text + "\n"
+	backup.append(text)
 	typing_timer.start()
 	return true
 	
@@ -160,12 +169,19 @@ func parse_input(input):
 	match(input):
 		"QUIT":
 			get_tree().quit()
+		"EXIT":
+			if is_diary:
+				is_diary = false
+				return
 		"HELP":
 			change_moves = false
 			var help_text = File.new()
 			help_text.open("res://main/help.tres", File.READ)
 			update_display(false, help_text.get_as_text())
+			return
 		"PICK UP":
+			if target == "GUN":
+				target = ".38 REVOLVER"
 			if target == "BULLET":
 				if Objects.bullets.has(curr_loc):
 					bullet_count = bullet_count + 1
@@ -207,6 +223,7 @@ func parse_input(input):
 						update_display(false, "You don't have enough space to carry that.")
 					else:
 						update_display(false, "I don't know what that is.")
+			return
 		"DROP":
 			if Player.inventory.find(target) != -1:
 				$"../drop".play()
@@ -214,6 +231,7 @@ func parse_input(input):
 				Player.inventory.erase(target)
 				Objects.location[target] = curr_loc
 				update_display("GREEN", "\ndropped " + target)
+			return
 		"INVENTORY":
 			change_moves = false
 			if Player.inventory.size() > 0:
@@ -222,6 +240,7 @@ func parse_input(input):
 					update_display(false, i)
 			else:
 				update_display(false, "your hands are empty")
+			return
 		"USE SHOVEL":
 			if Player.inventory.has("SHOVEL") and Objects.dig.has(curr_loc):
 				$"../shovel".play()
@@ -247,6 +266,7 @@ func parse_input(input):
 				update_display(false, "You don't have a SHOVEL")
 			else:
 				update_display(false, "There is nothing to dig")
+			return
 		"USE GUN":
 			change_moves = true
 			if must_shoot:
@@ -269,6 +289,7 @@ func parse_input(input):
 					update_display(false, "\nYou hear a loud click as you pull the trigger. No more bullets.")
 			else:
 				update_display(false, "\nYou have nothing to shoot.")
+			return
 		"USE OBJECT":
 			var has_item = Player.inventory.find(target)
 			if has_item != -1:
@@ -286,10 +307,10 @@ func parse_input(input):
 					update_display("GREEN", "used " + target)
 					Player.inventory.erase(target)
 					Player.monster_distance = Player.monster_distance + 1
-					Locations.usable_item.erase(curr_loc)
 					if Objects.used_item_text.has(target):
 						Player.score += 10
 						update_display(false, "\n" + Objects.used_item_text[target])
+						Objects.used_item_text.erase(target)
 						Locations.examine["RITUAL ROOM"] = Locations.alternate_examine["RITUAL ROOM"]
 				elif Locations.usable_item.has(curr_loc) and Locations.usable_item[curr_loc] == target:
 					Locations.locked.erase(curr_loc)
@@ -307,68 +328,121 @@ func parse_input(input):
 					update_display(false, "I don't see why...")
 			else:
 				update_display(false, "You don't have that.")
+			return
 		"TIME":
 			change_moves = false
 			update_display("GREEN", "TOTAL TIME: " + str(stepify(Time.get_ticks_msec() / (1000.00 * 60.00), .01)))
+			return
 		"MUTE":
 			change_moves = false
 			Music.volume_db = -80
-			update_display("GREEN", "MUTED")
+			$"../dock_background".volume_db = -80
+			$"../river_background".volume_db = -80
+			$"../cave_background".volume_db = -80
+			$"../ocean_background".volume_db = -80
+			$"../monster_background".volume_db = -80
+			$"../graveyard_background".volume_db = -80
+			$"../forest_background".volume_db = -80
+			update_display("GREEN", "MUTED MUSIC")
+			return
 		"UNMUTE":
 			change_moves = false
-			Music.volume_db = -24.048
-			update_display("GREEN", "UNMUTED")
+			Music.volume_db = -13.323
+			$"../dock_background".volume_db = 0
+			$"../river_background".volume_db = -15.042
+			$"../cave_background".volume_db = -12.891
+			$"../ocean_background".volume_db = -15.902
+			$"../monster_background".volume_db = -21.554
+			$"../graveyard_background".volume_db = -27.712
+			$"../forest_background".volume_db = -1.710
+			update_display("GREEN", "UNMUTED MUSIC")
+			return
 		"EXAMINE":
 			generate_examine()
+			return
 		"NORTH":
 			if Locations.north.has(curr_loc) and check_travel(Locations.north.get(curr_loc)):
 				curr_loc = Locations.north.get(curr_loc)
 				generate_examine()
+			elif !Locations.north.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"SOUTH":
 			if Locations.south.has(curr_loc) and check_travel(Locations.south.get(curr_loc)):
 				curr_loc = Locations.south.get(curr_loc)
 				generate_examine()
+			elif !Locations.south.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"EAST":
 			if Locations.east.has(curr_loc) and check_travel(Locations.east.get(curr_loc)):
 				curr_loc = Locations.east.get(curr_loc)
 				generate_examine()
+			elif !Locations.east.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"WEST":
 			if Locations.west.has(curr_loc) and check_travel(Locations.west.get(curr_loc)):
 				curr_loc = Locations.west.get(curr_loc)
 				generate_examine()
+			elif !Locations.west.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"NORTHEAST":
 			if Locations.northeast.has(curr_loc) and check_travel(Locations.northeast.get(curr_loc)):
 				curr_loc = Locations.northeast.get(curr_loc)
 				generate_examine()
+			elif !Locations.northeast.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"SOUTHEAST":
 			if Locations.southeast.has(curr_loc) and check_travel(Locations.southeast.get(curr_loc)):
 				curr_loc = Locations.southeast.get(curr_loc)
 				generate_examine()
+			elif !Locations.southeast.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"NORTHWEST":
 			if Locations.northwest.has(curr_loc) and check_travel(Locations.northwest.get(curr_loc)):
 				curr_loc = Locations.northwest.get(curr_loc)
 				generate_examine()
+			elif !Locations.northwest.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"SOUTHWEST":
 			if Locations.southwest.has(curr_loc) and check_travel(Locations.southwest.get(curr_loc)):
 				curr_loc = Locations.southwest.get(curr_loc)
 				generate_examine()
+			elif !Locations.southwest.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"UP":
 			if Locations.up.has(curr_loc) and check_travel(Locations.up.get(curr_loc)):
 				curr_loc = Locations.up.get(curr_loc)
 				generate_examine()
+			elif !Locations.up.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"DOWN":
 			if Locations.down.has(curr_loc) and check_travel(Locations.down.get(curr_loc)):
 				curr_loc = Locations.down.get(curr_loc)
 				generate_examine()
+			elif !Locations.down.has(curr_loc):
+				update_display(false, "You can't go that way.")
+			return
 		"PASSWORD":
 			check_password = false
 			if target == "4798":
-				update_display(false, "The keypad beeps cheerily and a tiny green light flashes. The door swings open and you look inside. There is something in there.")
+				$"../beep".play()
+				update_display(false, "The keypad beeps cheerily and a tiny green light flashes. The door swings open and you look inside.")
 				Locations.examine["DR OFFICE"] = Locations.alternate_examine["DR OFFICE"]
 				Objects.location["PISTON"] = "SAFE"
 				Objects.static_object["SAFE"] = "The safe is wide open."
+				target = "SAFE"
+				generate_object_examine()
 			else:
 				update_display(false, "The keypad honks at you angrily and a tiny red light flashes. That wasnt the right code.")
+			return
 		"EXAMINE OBJECT":
 			if Objects.static_object.has(target) and Objects.static_object_location.get(target) == curr_loc:
 				change_moves = true
@@ -378,8 +452,13 @@ func parse_input(input):
 					generate_object_examine()
 				if target == "KEYPAD":
 					check_password = true
+				if target == "DIARY":
+					is_diary = true
+					generate_object_examine()
 			else:
 				update_display(false, "I don't know what that means.")
+			return
+	update_display(false, "I don't know what that means.")
 				
 func update_bullet_icons(add_bullet):
 	if add_bullet:
@@ -387,7 +466,7 @@ func update_bullet_icons(add_bullet):
 			bullet_icons[bullet_count-1].visible = true
 	else:
 		if bullet_count-1 >= 0:
-			bullet_icons[bullet_count].visible = false
+			bullet_icons[bullet_count-1].visible = false
 				
 func separate_input(text):
 	if text != "" and text != null:
@@ -409,6 +488,9 @@ func separate_input(text):
 		return "PICK UP"
 	elif text.find_last("TAKE") != -1:
 		target = text.trim_prefix("TAKE ")
+		return "PICK UP"
+	elif text.find_last("GET") != -1:
+		target = text.trim_prefix("GET ")
 		return "PICK UP"
 	elif text.find_last("DROP") != -1:
 		target = text.trim_prefix("DROP ")
@@ -469,8 +551,6 @@ func separate_input(text):
 	
 func generate_examine():
 	change_moves = true
-	if curr_loc == "RITUAL ROOM" and !Locations.usable_item.has(curr_loc):
-		Locations.examine["RITUAL ROOM"] = Locations.alternate_examine["RITUAL ROOM"]
 	var examine = Locations.examine.get(curr_loc)
 	check_for_sounds()
 	update_display("GREEN", "\n" + curr_loc + "\n")
@@ -492,7 +572,7 @@ func generate_examine():
 		waiting = curr_loc
 		waiting_for_ans = true
 	if curr_loc == "RITUAL ROOM":
-		if Locations.usable_item.has(curr_loc):
+		if Objects.used_item_text.has("RUNIC MEDALLION"):
 			parse_input("SOUTH")
 			Locations.locked["TEMPLE"] = "RITUAL ROOM"
 		else:
@@ -521,6 +601,9 @@ func check_for_sounds():
 	elif river_present.find(curr_loc) != -1:
 		reset_sounds()
 		$"../river_background".play()
+	elif graveyard_present.find(curr_loc) != -1:
+		reset_sounds()
+		$"../graveyard_background".play()
 	elif dock_present.find(curr_loc) != -1:
 		reset_sounds()
 		$"../dock_background".play()
@@ -539,6 +622,7 @@ func reset_sounds():
 	$"../dock_background".stop()
 	$"../cave_background".stop()
 	$"../ocean_background".stop()
+	$"../graveyard_background".stop()
 
 func generate_object_examine():
 	var bullet = Objects.bullets.has(target)
@@ -646,6 +730,7 @@ func _on_typing_timer_timeout():
 		else:
 			typing_timer.stop()
 			is_typing = false
+			display_text.remove_line(0)
 		if start_text and !game_over:
 			start_text = false
 		if game_over:

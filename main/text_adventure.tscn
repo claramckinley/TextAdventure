@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://main/text_adventure.gd" type="Script" id=1]
 [ext_resource path="res://main/58906__rock-savage__western-shot-modern-3.wav" type="AudioStream" id=2]
-[ext_resource path="res://main/shoveling.mp3" type="AudioStream" id=3]
+[ext_resource path="res://main/366387__piggimon__shoveling-sand.wav" type="AudioStream" id=3]
 [ext_resource path="res://main/173980__hoersturz__20130103_151218_oslofjord_colorfantasy_foghorn_stern.wav" type="AudioStream" id=4]
 [ext_resource path="res://main/548629__kostrava__forest-swamp.wav" type="AudioStream" id=5]
 [ext_resource path="res://main/48407__melarancida__small-river.mp3" type="AudioStream" id=6]
@@ -13,6 +13,8 @@
 [ext_resource path="res://main/565143__blackatomproductions__cavemixa.mp3" type="AudioStream" id=11]
 [ext_resource path="res://main/331220__yoyodaman234__ocean-waves-at-the-beach-2.mp3" type="AudioStream" id=12]
 [ext_resource path="res://main/439397__thesoundmakerqueen__what-hell-sounds-like.wav" type="AudioStream" id=13]
+[ext_resource path="res://main/crows.mp3" type="AudioStream" id=14]
+[ext_resource path="res://main/399125__fastson__safedoorclosebeepbeep_01.wav" type="AudioStream" id=15]
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0901961, 0.0862745, 0.0862745, 1 )
@@ -132,10 +134,9 @@ rect_rotation = 29.6258
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ProgressBar"]
-margin_left = 75.0001
-margin_top = -53.9999
-margin_right = 215.0
-margin_bottom = 6.10352e-05
+margin_left = 63.0
+margin_top = -51.0
+margin_right = 203.0
 custom_constants/separation = 30
 
 [node name="bullet1" type="Polygon2D" parent="ProgressBar/HBoxContainer"]
@@ -224,6 +225,10 @@ volume_db = -8.165
 stream = ExtResource( 8 )
 volume_db = -10.314
 
+[node name="beep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+volume_db = -10.314
+
 [node name="car_start" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
 volume_db = -14.181
@@ -231,6 +236,10 @@ volume_db = -14.181
 [node name="forest_background" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -1.718
+
+[node name="graveyard_background" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+volume_db = -27.712
 
 [node name="monster_background" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )
