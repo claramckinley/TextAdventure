@@ -1,8 +1,8 @@
 
-(green)DIRECTIONS:(white)
+[color=#00bb00]DIRECTIONS:[/color]
 	you can use use NORTH (N), SOUTH (S), EAST (E), WEST (W), NORTHWEST (NW), SOUTHWEST (SW), NORTHEAST (NE), SOUTHEAST (SE), UP (U), or DOWN (D) to navigate through the world.
 	
-(green)COMMANDS:(white)
+[color=#00bb00]COMMANDS:[/color]
 	type EXAMINE (EX or L) to look at the space you are in 
 	type EXAMINE (EX or L) ______ to specify an object to look at: "EXAMINE WINDOW" OR "EX TABLE" 
 	type PICK UP/TAKE ______ to pick up an object: "TAKE KEY"

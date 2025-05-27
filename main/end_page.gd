@@ -14,7 +14,7 @@ func determine_rank():
 		rank_sign = "-"
 		
 	if Player.score == 310:
-		return "S RANK"
+		return "S"
 	elif Player.score > 250:
 		return "A" + rank_sign
 	elif Player.score > 200:
@@ -23,7 +23,7 @@ func determine_rank():
 		return "C" + rank_sign 
 	elif Player.score > 100:
 		return "D" + rank_sign
-	return "F RANK"
+	return "F"
 		
 func _on_Button_pressed():
 	get_tree().quit()

@@ -72,13 +72,7 @@ margin_bottom = -165.0
 mouse_filter = 1
 scroll_horizontal_enabled = false
 
-[node name="DisplayText" type="RichTextLabel" parent="ScrollContainer"]
-margin_right = 1050.0
-margin_bottom = 400.0
-rect_min_size = Vector2( 1050, 400 )
-mouse_filter = 1
-fit_content_height = true
-scroll_active = false
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 
 [node name="UserInput" type="LineEdit" parent="."]
 anchor_left = 0.5

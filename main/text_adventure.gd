@@ -1,7 +1,6 @@
 extends ColorRect
 
 onready var user_input = $"../UserInput"
-onready var display_text = $"../ScrollContainer/DisplayText"
 onready var progress_bar = $"../ProgressBar"
 onready var typing_timer = $"../TypingTimer"
 onready var sanity_delta = $"../ProgressBar/SanityDelta"
@@ -29,7 +28,7 @@ var bullet_success = 0
 var game_over = false
 var max_scroll_length = 0
 var temp_text = ""
-var start_text = false
+var start_text = true
 var end_scene = false
 var waiting_for_ans = false
 var must_shoot = false
@@ -50,6 +49,7 @@ var question_text = ""
 var sanity_text = true
 var is_diary = false
 var backup = []
+var next_display
 
 export var damage = 20
 
@@ -60,11 +60,12 @@ func _ready():
 	user_input.caret_blink = true
 	user_input.grab_focus()
 	var intro_text = File.new()
+	create_new_text()
 	intro_text.open("res://main/intro.tres", File.READ)
-	update_display(false, "\n" + intro_text.get_as_text())
+	update_display("WHITE", intro_text.get_as_text())
 	start_time = Time.get_ticks_msec()
 	parse_input("EXAMINE")
-	update_display("GREEN", "\nType HELP for information on how to play!")
+	update_display("GREEN", "\n\nType HELP for information on how to play!")
 	bullet_icons = [bullet1, bullet2, bullet3, bullet4, bullet5, bullet6]
 	
 func _process(_delta):
@@ -78,16 +79,12 @@ func _process(_delta):
 	else:
 		$"../monster_background".stop()
 	if !game_over and monster_check and (Player.monster_distance == 1 || Player.monster_distance == 2):
-			monster_text = "(red)\nYou hear wet thunking steps. Tentacles dragging and liquid sloshing. You might want to USE GUN...(white)"
+			monster_text = "[color=#ff0000]\n\nYou hear wet thunking steps. Tentacles dragging and liquid sloshing. You might want to USE GUN...[/color]"
 			monster_check = false
 			must_shoot = true
 			change_moves = true
 	if !start_text and !game_over and (Input.is_action_just_pressed("skip") or Input.is_action_just_pressed("ui_select")):
-		var text_arr = temp_text.split("(green)")
-		for i in text_arr:
-			var sub_text_arr = i.split("(white)")
-			for j in sub_text_arr:
-				display_text.add_text(j)
+		next_display.append_bbcode(temp_text)
 		temp_text = ""
 	if !game_over and Player.monster_distance <= 0:
 		if Player.sanity - damage <= 0:
@@ -96,8 +93,8 @@ func _process(_delta):
 		else:
 			update_sanity(damage)
 			curr_loc = origin
-			update_display("GREEN", "\n" + curr_loc + "\n")
-			update_display(false, "\nEverything goes black. You sit up in your bed in room 428, no memory of how you got here.\n\n\nTo the WEST is the door to the hallway, marks on the door frame suggesting the recent removal of a bolt,\nTo the NORTH is a door with no handles.")
+			update_display("GREEN", "\n\n" + curr_loc)
+			update_display("WHITE", "\n\nEverything goes black. You sit up in your bed in room 428, no memory of how you got here.\n\n\nTo the WEST is the door to the hallway, marks on the door frame suggesting the recent removal of a bolt,\nTo the NORTH is a door with no handles.\n")
 			Player.monster_distance = max_monster_distance
 			monster_check = true
 			must_shoot = false
@@ -109,13 +106,22 @@ func _process(_delta):
 func update_display(color, text):
 	match(color):
 		"GREEN":
-			text = "(green)" + str(text) + "(white)"
+			text = "[color=#00bb00]" + text + "[/color]"
 		"RED":
-			text = "(red)" + str(text) + "(white)"
-	temp_text = temp_text + text + "\n"
-	backup.append(text)
+			text = "[color=#ff0000]" + text + "[/color]"
+		"WHITE":
+			text = text
+	temp_text = temp_text + text
 	typing_timer.start()
 	return true
+	
+func create_new_text():
+	next_display = RichTextLabel.new()
+	next_display.rect_min_size.x = 1050
+	next_display.fit_content_height = true
+	next_display.anchor_left = 0
+	next_display.anchor_right = 1
+	$"../ScrollContainer/VBoxContainer".add_child(next_display)
 	
 func handle_scrollbar_changed():
 	if max_scroll_length != scroll_bar.max_value:
@@ -132,8 +138,7 @@ func _on_user_input_text_submitted(new_text):
 			Player.monster_distance = Player.monster_distance - 2
 			change_moves = false
 		user_input.clear()
-		display_text.visible_characters = display_text.get_total_character_count()
-		update_display(false, "\n\n> " + new_text)
+		update_display("WHITE", "\n\n> " + new_text)
 		if waiting_for_ans:
 			check_waiting_for_answer(new_text)
 		elif must_shoot and new_text.to_upper() != "USE GUN":
@@ -150,19 +155,19 @@ func check_waiting_for_answer(new_text):
 		if curr_loc == "RIVER EDGE":
 			check_ending("RIVER")
 		elif curr_loc == "LIGHTHOUSE BRIDGE":
-			update_display(false, "\n" + Objects.yes[waiting])
+			update_display("WHITE", "\n\n" + Objects.yes[waiting])
 			curr_loc = "LIGHTHOUSE BRIDGE LEDGE"
 			generate_examine()
 		elif curr_loc == "CITY HALL":
-			update_display(false, "\n" + Objects.yes[waiting])
+			update_display("WHITE", "\n\n" + Objects.yes[waiting])
 			update_sanity(damage)
 		else:
-			update_display(false, "\n" + Objects.yes[waiting])
+			update_display("WHITE", "\n\n" + Objects.yes[waiting])
 	elif new_text.to_upper() == "NO":
-		update_display(false, "\n" + Objects.no[waiting])
+		update_display("WHITE", "\n\n" + Objects.no[waiting])
 		waiting_for_ans = false
 	else:
-		update_display(false, "\nPlease answer YES or NO.")		
+		update_display("WHITE", "\n\nPlease answer YES or NO.")		
 		
 func parse_input(input):
 	input = separate_input(input)
@@ -177,7 +182,7 @@ func parse_input(input):
 			change_moves = false
 			var help_text = File.new()
 			help_text.open("res://main/help.tres", File.READ)
-			update_display(false, help_text.get_as_text())
+			update_display("WHITE", "\n" + help_text.get_as_text())
 			return
 		"PICK UP":
 			if target == "GUN":
@@ -189,7 +194,7 @@ func parse_input(input):
 					Objects.bullets.erase(curr_loc)
 					$"../take".play()
 					change_moves = true
-					update_display("GREEN", "\ntook " + target)
+					update_display("GREEN", "\n\ntook " + target)
 					Player.score += 10
 				else:
 					for i in Objects.bullets:
@@ -200,7 +205,7 @@ func parse_input(input):
 								Objects.bullets.erase(curr_loc)
 								$"../take".play()
 								change_moves = true
-								update_display("GREEN", "\ntook " + target)
+								update_display("GREEN", "\n\ntook " + target)
 			else:
 				if target == "CAR KEYS":
 					target = "CAR KEY"
@@ -209,20 +214,20 @@ func parse_input(input):
 					Objects.location.erase(target)
 					$"../take".play()
 					change_moves = true
-					update_display("GREEN", "\ntook " + target)
+					update_display("GREEN", "\n\ntook " + target)
 					if Objects.picked_up.has(target) and Objects.picked_up[target] == 0:
 						Objects.picked_up[target] = 1
 						Player.monster_distance = max_monster_distance
 						if buy_time.has(target):
 							Player.score = Player.score + 20
-							update_display(false, "You have bought yourself more time.")
+							update_display("WHITE", "\n\nYou have bought yourself more time.")
 						else:
 							Player.score = Player.score + 10
 				else:
 					if Player.inventory.size() >= 5:
-						update_display(false, "You don't have enough space to carry that.")
+						update_display("WHITE", "\n\nYou don't have enough space to carry that.")
 					else:
-						update_display(false, "I don't know what that is.")
+						update_display("WHITE", "\n\nI don't know what that is.")
 			return
 		"DROP":
 			if Player.inventory.find(target) != -1:
@@ -230,16 +235,16 @@ func parse_input(input):
 				change_moves = true
 				Player.inventory.erase(target)
 				Objects.location[target] = curr_loc
-				update_display("GREEN", "\ndropped " + target)
+				update_display("GREEN", "\n\ndropped " + target)
 			return
 		"INVENTORY":
 			change_moves = false
 			if Player.inventory.size() > 0:
-				update_display(false, "\nYou are holding (" + str(Player.inventory.size()) + "/5):\n")
+				update_display("WHITE", "\n\nYou are holding (" + str(Player.inventory.size()) + "/5):\n\n")
 				for i in Player.inventory:
-					update_display(false, i)
+					update_display("WHITE", i + "\n")
 			else:
-				update_display(false, "your hands are empty")
+				update_display("WHITE", "\n\nyour hands are empty")
 			return
 		"USE SHOVEL":
 			if Player.inventory.has("SHOVEL") and Objects.dig.has(curr_loc):
@@ -263,9 +268,9 @@ func parse_input(input):
 				Locations.examine[curr_loc] = prev_string[0] + "\n" + new_string + "\n\n" + prev_string[1]
 				Objects.dig.erase(curr_loc)
 			elif  Objects.dig.has(curr_loc) and not Player.inventory.has("SHOVEL"):
-				update_display(false, "You don't have a SHOVEL")
+				update_display("WHITE", "\n\nYou don't have a SHOVEL")
 			else:
-				update_display(false, "There is nothing to dig")
+				update_display("WHITE", "\n\nThere is nothing to dig")
 			return
 		"USE GUN":
 			change_moves = true
@@ -279,59 +284,59 @@ func parse_input(input):
 					if Player.monster_distance <= 2:
 						bullet_success += 1
 						if bullet_success != 6:
-							update_display(false, "\nYou fire your gun at the creature. It screams and disappears. You have bought yourself some more time.")
+							update_display("WHITE", "\n\nYou fire your gun at the creature. It screams and disappears. You have bought yourself some more time.")
 							Player.monster_distance = Player.monster_distance + max_monster_distance
 						else:
 							check_ending("KILL")
 					else:
-						update_display(false, "\nYou fire your gun. Nothing else happens.")
+						update_display("WHITE", "\n\nYou fire your gun. Nothing else happens.")
 				elif bullet_count == 0:
-					update_display(false, "\nYou hear a loud click as you pull the trigger. No more bullets.")
+					update_display("WHITE", "\n\nYou hear a loud click as you pull the trigger. No more bullets.")
 			else:
-				update_display(false, "\nYou have nothing to shoot.")
+				update_display("WHITE", "\n\nYou have nothing to shoot.")
 			return
 		"USE OBJECT":
 			var has_item = Player.inventory.find(target)
 			if has_item != -1:
 				change_moves = true
 				if target == "BOOTLEG LIQUOR":
-					update_display("GREEN", "used " + target)
+					update_display("GREEN", "\n\nused " + target)
 					Player.monster_distance = Player.monster_distance + 1
 					Locations.usable_item.erase(curr_loc)
 					Player.inventory.erase(target)
 					update_sanity(-10)
 					if Objects.used_item_text.has(target):
 						Player.score += 10
-						update_display(false, "\n" + Objects.used_item_text[target])
+						update_display("WHITE", "\n\n" + Objects.used_item_text[target])
 				elif target == "RUNIC MEDALLION":
-					update_display("GREEN", "used " + target)
+					update_display("GREEN", "\n\nused " + target)
 					Player.inventory.erase(target)
 					Player.monster_distance = Player.monster_distance + 1
 					if Objects.used_item_text.has(target):
 						Player.score += 10
-						update_display(false, "\n" + Objects.used_item_text[target])
+						update_display("WHITE", "\n\n" + Objects.used_item_text[target])
 						Objects.used_item_text.erase(target)
 						Locations.examine["RITUAL ROOM"] = Locations.alternate_examine["RITUAL ROOM"]
 				elif Locations.usable_item.has(curr_loc) and Locations.usable_item[curr_loc] == target:
 					Locations.locked.erase(curr_loc)
 					if !multi_use_objects.has(target):
 						Player.inventory.erase(target)
-					update_display("GREEN", "used " + target)
+					update_display("GREEN", "\n\nused " + target)
 					Player.monster_distance = Player.monster_distance + 1
 					Locations.usable_item.erase(curr_loc)
 					if Locations.alternate_examine.has(curr_loc):
 						Locations.examine[curr_loc] = Locations.alternate_examine[curr_loc]
 					if Objects.used_item_text.has(target):
 						Player.score += 10
-						update_display(false, "\n" + Objects.used_item_text[target])
+						update_display("WHITE", "\n\n" + Objects.used_item_text[target])
 				else:
-					update_display(false, "I don't see why...")
+					update_display("WHITE", "\n\nI don't see why...")
 			else:
-				update_display(false, "You don't have that.")
+				update_display("WHITE", "\n\nYou don't have that.")
 			return
 		"TIME":
 			change_moves = false
-			update_display("GREEN", "TOTAL TIME: " + str(stepify(Time.get_ticks_msec() / (1000.00 * 60.00), .01)))
+			update_display("GREEN", "\n\nTOTAL TIME: " + str(stepify(Time.get_ticks_msec() / (1000.00 * 60.00), .01)))
 			return
 		"MUTE":
 			change_moves = false
@@ -343,7 +348,7 @@ func parse_input(input):
 			$"../monster_background".volume_db = -80
 			$"../graveyard_background".volume_db = -80
 			$"../forest_background".volume_db = -80
-			update_display("GREEN", "MUTED MUSIC")
+			update_display("GREEN", "\n\nMUTED MUSIC")
 			return
 		"UNMUTE":
 			change_moves = false
@@ -355,7 +360,7 @@ func parse_input(input):
 			$"../monster_background".volume_db = -21.554
 			$"../graveyard_background".volume_db = -27.712
 			$"../forest_background".volume_db = -1.710
-			update_display("GREEN", "UNMUTED MUSIC")
+			update_display("GREEN", "\n\nUNMUTED MUSIC")
 			return
 		"EXAMINE":
 			generate_examine()
@@ -365,83 +370,83 @@ func parse_input(input):
 				curr_loc = Locations.north.get(curr_loc)
 				generate_examine()
 			elif !Locations.north.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"SOUTH":
 			if Locations.south.has(curr_loc) and check_travel(Locations.south.get(curr_loc)):
 				curr_loc = Locations.south.get(curr_loc)
 				generate_examine()
 			elif !Locations.south.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"EAST":
 			if Locations.east.has(curr_loc) and check_travel(Locations.east.get(curr_loc)):
 				curr_loc = Locations.east.get(curr_loc)
 				generate_examine()
 			elif !Locations.east.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"WEST":
 			if Locations.west.has(curr_loc) and check_travel(Locations.west.get(curr_loc)):
 				curr_loc = Locations.west.get(curr_loc)
 				generate_examine()
 			elif !Locations.west.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"NORTHEAST":
 			if Locations.northeast.has(curr_loc) and check_travel(Locations.northeast.get(curr_loc)):
 				curr_loc = Locations.northeast.get(curr_loc)
 				generate_examine()
 			elif !Locations.northeast.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"SOUTHEAST":
 			if Locations.southeast.has(curr_loc) and check_travel(Locations.southeast.get(curr_loc)):
 				curr_loc = Locations.southeast.get(curr_loc)
 				generate_examine()
 			elif !Locations.southeast.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"NORTHWEST":
 			if Locations.northwest.has(curr_loc) and check_travel(Locations.northwest.get(curr_loc)):
 				curr_loc = Locations.northwest.get(curr_loc)
 				generate_examine()
 			elif !Locations.northwest.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"SOUTHWEST":
 			if Locations.southwest.has(curr_loc) and check_travel(Locations.southwest.get(curr_loc)):
 				curr_loc = Locations.southwest.get(curr_loc)
 				generate_examine()
 			elif !Locations.southwest.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"UP":
 			if Locations.up.has(curr_loc) and check_travel(Locations.up.get(curr_loc)):
 				curr_loc = Locations.up.get(curr_loc)
 				generate_examine()
 			elif !Locations.up.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"DOWN":
 			if Locations.down.has(curr_loc) and check_travel(Locations.down.get(curr_loc)):
 				curr_loc = Locations.down.get(curr_loc)
 				generate_examine()
 			elif !Locations.down.has(curr_loc):
-				update_display(false, "You can't go that way.")
+				update_display("WHITE", "\n\nYou can't go that way.")
 			return
 		"PASSWORD":
 			check_password = false
 			if target == "4798":
 				$"../beep".play()
-				update_display(false, "The keypad beeps cheerily and a tiny green light flashes. The door swings open and you look inside.")
+				update_display("WHITE", "\n\nThe keypad beeps cheerily and a tiny green light flashes. The door swings open and you look inside.")
 				Locations.examine["DR OFFICE"] = Locations.alternate_examine["DR OFFICE"]
 				Objects.location["PISTON"] = "SAFE"
 				Objects.static_object["SAFE"] = "The safe is wide open."
 				target = "SAFE"
 				generate_object_examine()
 			else:
-				update_display(false, "The keypad honks at you angrily and a tiny red light flashes. That wasnt the right code.")
+				update_display("WHITE", "\n\nThe keypad honks at you angrily and a tiny red light flashes. That wasnt the right code.")
 			return
 		"EXAMINE OBJECT":
 			if Objects.static_object.has(target) and Objects.static_object_location.get(target) == curr_loc:
@@ -456,9 +461,9 @@ func parse_input(input):
 					is_diary = true
 					generate_object_examine()
 			else:
-				update_display(false, "I don't know what that means.")
+				update_display("WHITE", "\n\nI don't know what that means.")
 			return
-	update_display(false, "I don't know what that means.")
+	update_display("WHITE", "\n\nI don't know what that means.")
 				
 func update_bullet_icons(add_bullet):
 	if add_bullet:
@@ -553,22 +558,22 @@ func generate_examine():
 	change_moves = true
 	var examine = Locations.examine.get(curr_loc)
 	check_for_sounds()
-	update_display("GREEN", "\n" + curr_loc + "\n")
+	update_display("GREEN", "\n\n" + curr_loc + "\n\n")
 	var bullet = Objects.bullets.has(curr_loc)
 	var has_bullet = ""
 	if bullet == true:
-		has_bullet = "\nThere is a BULLET"
+		has_bullet = "\n\nThere is a BULLET"
 		var examine_arr = examine.split("\n\n")
-		update_display(false, examine_arr[0] + "\n" + examine_objs(curr_loc) + "\n" + str(has_bullet) + "\n" + examine_arr[1])
+		update_display("WHITE", examine_arr[0] + "\n" + examine_objs(curr_loc) + "\n" + str(has_bullet) + "\n" + examine_arr[1])
 		
 	else:
 		var examine_arr = examine.split("\n\n")
 		if examine_arr.size() == 2:
-			update_display(false, examine_arr[0] + "\n" + examine_objs(curr_loc) + "\n" + examine_arr[1])
+			update_display("WHITE", examine_arr[0] + "\n" + examine_objs(curr_loc) + "\n" + examine_arr[1])
 		if examine_arr.size() == 1:
-			update_display(false, examine_arr[0] + "\n" + examine_objs(curr_loc))
+			update_display("WHITE", examine_arr[0] + "\n" + examine_objs(curr_loc))
 	if Objects.questions.has(curr_loc):
-		question_text = "(green)\n" + Objects.questions[curr_loc] + "(white)"
+		question_text = "[color=#00bb00]\n" + Objects.questions[curr_loc] + "[/color]"
 		waiting = curr_loc
 		waiting_for_ans = true
 	if curr_loc == "RITUAL ROOM":
@@ -585,7 +590,7 @@ func examine_objs(object):
 	for item in Objects.location:
 		if Objects.location.get(item) == object:
 			object_arr.push_back(item)
-	var examine_objs_str = "\n"
+	var examine_objs_str = "\n\n"
 	for obj in object_arr:
 		examine_objs_str = examine_objs_str + Objects.examine.get(obj) + "\n"
 	return examine_objs_str
@@ -630,13 +635,13 @@ func generate_object_examine():
 	if bullet == true:
 		has_bullet = "\nThere is a BULLET"
 	var examine = Objects.static_object.get(target)
-	update_display("GREEN", "\n" + target + "\n")
-	update_display(false, examine + "\n" + str(has_bullet) + examine_objs(target))
+	update_display("GREEN", "\n\n" + target)
+	update_display("WHITE", "\n\n" + examine + "\n" + str(has_bullet) + examine_objs(target))
 	if Objects.sanity_loss.get(target) != null:
 		update_sanity(Objects.sanity_loss.get(target))
 		Objects.sanity_loss.erase(target)
 	if Objects.questions.has(target):
-		question_text = "(green)\n" + Objects.questions[target] + "(white)"
+		question_text = "[color=#00bb00]\n" + Objects.questions[target] + "[/color]"
 		waiting = target
 		waiting_for_ans = true
 		
@@ -644,19 +649,19 @@ func update_sanity(sanity_damage):
 	Player.sanity = Player.sanity - sanity_damage
 	if sanity_damage > 0:
 		sanity_delta.text = "-" + str(sanity_damage)
-		question_text = "(red)\nYOU LOST SANITY(white)"
+		question_text = "[color=#ff0000]\n\nYOU LOST SANITY[/color]"
 	else:
 		sanity_delta.text = "+" + str(-1 * sanity_damage)
-		question_text = "(red)\nYOU GAINED SANITY(white)"
+		question_text = "[color=#ff0000]\n\nYOU GAINED SANITY[/color]"
 	delta_timer.start()
 	progress_bar.value = Player.sanity
 		
 func check_travel(next_loc):
 	if Locations.locked.has(curr_loc) and Locations.locked[curr_loc] == next_loc:
 		if curr_loc == "HOVEL" or curr_loc == "CAVES":
-			update_display(false, "It's too dark to see anything.")
+			update_display("WHITE", "\n\nIt's too dark to see anything.")
 		else:
-			update_display(false, "It's locked...")
+			update_display("WHITE", "\n\nIt's locked...")
 	else:
 		Player.monster_distance = Player.monster_distance + 1
 		return true
@@ -696,7 +701,7 @@ func check_ending(which_ending):
 		"RITUAL":
 			Player.ending = "YOU JOINED THE CULTISTS"
 			Player.score = Player.score + 25
-	update_display(false, "\n" + Endings.endings[which_ending])
+	update_display("WHITE", "\n\n" + Endings.endings[which_ending])
 		
 func _on_delta_timer_timeout():
 	delta_timer.stop()
@@ -704,21 +709,19 @@ func _on_delta_timer_timeout():
 	
 func _on_typing_timer_timeout():
 	if temp_text.length() > 0:
-		display_text.percent_visible = 100
-		if temp_text.begins_with("(green)"):
+		if temp_text.begins_with("[color=#00bb00]"):
+			next_display.push_color(Color.green)
+			temp_text = temp_text.lstrip("[color=#00bb00]")
 			start_text = true
-			display_text.push_color(Color.green)
-			temp_text = temp_text.trim_prefix("(green)")
-		if temp_text.begins_with("(red)"):
-			start_text = true
-			display_text.push_color(Color.red)
-			temp_text = temp_text.trim_prefix("(red)")
-		if temp_text.begins_with("(white)"):
+		elif temp_text.begins_with("[color=#ff0000]"):
+			next_display.push_color(Color.red)
+			temp_text = temp_text.lstrip("[color=#ff0000]")
+		elif temp_text.begins_with("[/color]"):
 			start_text = false
-			display_text.push_color(Color.white)
-			temp_text = temp_text.trim_prefix("(white)")
+			next_display.push_color(Color.white)
+			temp_text = temp_text.lstrip("[/color]")
 		if temp_text.length() > 0:
-			display_text.add_text(temp_text[0])
+			next_display.append_bbcode(temp_text[0])
 			temp_text = temp_text.trim_prefix(temp_text[0])
 	else:
 		if monster_text != "":
@@ -730,7 +733,10 @@ func _on_typing_timer_timeout():
 		else:
 			typing_timer.stop()
 			is_typing = false
-			display_text.remove_line(0)
+			if $"../ScrollContainer/VBoxContainer".get_child_count() >= 30:
+				$"../ScrollContainer/VBoxContainer".get_child(0).queue_free()
+			if next_display.get_total_character_count() > 200:
+				create_new_text()
 		if start_text and !game_over:
 			start_text = false
 		if game_over:
